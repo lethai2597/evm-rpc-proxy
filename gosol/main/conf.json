@@ -1,0 +1,23 @@
+{
+  "BIND_TO": "127.0.0.1:7779,h127.0.0.1:7778",
+  "BIND_TO_192.168.10.1": "192.168.10.1:7779,h192.168.10.1:7778",
+
+  "FORCE_START": true,
+  "DEBUG": false,
+  "VERBOSE": false,
+  "SOL_NODES": [
+    {
+      "url": "http://127.0.0.1:7899",
+      "public": false,
+      "score_modifier": -500000,
+      "throttle": "r,50000,10",
+      "probe_time": 10
+    }
+  ],
+  "CUSTOM_HEALTH_CHECKER": {
+    "run_every": 1,
+    "max_block_lag": 10,
+    "max_data_age_ms": 1000
+  },
+  "RUN_SERVICES": "*"
+}

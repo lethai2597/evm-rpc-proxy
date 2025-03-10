@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana RPC Proxy Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #512da8;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background-color: #512da8;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #311b92;
+        }
+        .result {
+            background-color: #e8eaf6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .example {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Solana RPC Proxy Test</h1>
+    <p>Trang này chứa các ví dụ để test Solana RPC Proxy bằng action raw.</p>
+
+    <div class="example">
+        <h2>1. Kiểm tra trạng thái máy chủ</h2>
+        <p>Gửi yêu cầu để xem trạng thái của proxy:</p>
+        <button onclick="testServerStatus()">Kiểm tra trạng thái</button>
+        <div id="serverStatusResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>2. Lấy thông tin Solana</h2>
+        <p>Lấy thông tin về trạng thái throttling của các node:</p>
+        <button onclick="getSolanaInfo()">Lấy thông tin Solana</button>
+        <div id="solanaInfoResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>3. Lấy block đầu tiên có sẵn</h2>
+        <p>Lấy thông tin về block đầu tiên có sẵn trên các node:</p>
+        <button onclick="getFirstAvailableBlock()">Lấy block đầu tiên</button>
+        <div id="firstBlockResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>4. Gửi yêu cầu RPC getVersion</h2>
+        <p>Gửi yêu cầu RPC để lấy phiên bản của node Solana:</p>
+        <button onclick="getVersion()">Lấy phiên bản</button>
+        <div id="versionResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>5. Gửi yêu cầu RPC getHealth</h2>
+        <p>Kiểm tra sức khỏe của node Solana:</p>
+        <button onclick="getHealth()">Kiểm tra sức khỏe</button>
+        <div id="healthResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>6. Gửi yêu cầu RPC getSlot</h2>
+        <p>Lấy slot hiện tại của node Solana:</p>
+        <button onclick="getSlot()">Lấy slot hiện tại</button>
+        <div id="slotResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>7. Gửi yêu cầu RPC getBlockHeight</h2>
+        <p>Lấy chiều cao block hiện tại của node Solana:</p>
+        <button onclick="getBlockHeight()">Lấy chiều cao block</button>
+        <div id="blockHeightResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>8. Gửi yêu cầu RPC getRecentBlockhash</h2>
+        <p>Lấy blockhash gần đây nhất:</p>
+        <button onclick="getRecentBlockhash()">Lấy blockhash gần đây</button>
+        <div id="recentBlockhashResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>9. Gửi yêu cầu RPC getBalance</h2>
+        <p>Lấy số dư của một địa chỉ ví Solana:</p>
+        <input type="text" id="walletAddress" placeholder="Nhập địa chỉ ví Solana" value="vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+        <button onclick="getBalance()">Lấy số dư</button>
+        <div id="balanceResult" class="result"></div>
+    </div>
+
+    <div class="example">
+        <h2>10. Gửi yêu cầu RPC getAccountInfo</h2>
+        <p>Lấy thông tin tài khoản của một địa chỉ Solana:</p>
+        <input type="text" id="accountAddress" placeholder="Nhập địa chỉ tài khoản Solana" value="vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+        <button onclick="getAccountInfo()">Lấy thông tin tài khoản</button>
+        <div id="accountInfoResult" class="result"></div>
+    </div>
+
+    <script>
+        const proxyUrl = 'http://127.0.0.1:7778';
+
+        async function fetchWithTimeout(url, options, timeout = 10000) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal
+                });
+                clearTimeout(id);
+                return response;
+            } catch (error) {
+                clearTimeout(id);
+                throw error;
+            }
+        }
+
+        async function testServerStatus() {
+            const resultElement = document.getElementById('serverStatusResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const response = await fetchWithTimeout(`${proxyUrl}/?action=server-status`, {
+                    method: 'GET'
+                });
+                
+                const text = await response.text();
+                resultElement.textContent = text;
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getSolanaInfo() {
+            const resultElement = document.getElementById('solanaInfoResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const response = await fetchWithTimeout(`${proxyUrl}/?action=getSolanaInfo`, {
+                    method: 'GET'
+                });
+                
+                const data = await response.json();
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getFirstAvailableBlock() {
+            const resultElement = document.getElementById('firstBlockResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const response = await fetchWithTimeout(`${proxyUrl}/?action=getFirstAvailableBlock`, {
+                    method: 'GET'
+                });
+                
+                const data = await response.json();
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function sendRpcRequest(method, params = []) {
+            const rpcRequest = {
+                jsonrpc: "2.0",
+                id: 1,
+                method: method,
+                params: params
+            };
+
+            try {
+                const response = await fetchWithTimeout(`${proxyUrl}/?action=raw`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(rpcRequest)
+                });
+                
+                return await response.json();
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        async function getVersion() {
+            const resultElement = document.getElementById('versionResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const data = await sendRpcRequest('getVersion');
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getHealth() {
+            const resultElement = document.getElementById('healthResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const data = await sendRpcRequest('getHealth');
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getSlot() {
+            const resultElement = document.getElementById('slotResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const data = await sendRpcRequest('getSlot');
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getBlockHeight() {
+            const resultElement = document.getElementById('blockHeightResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const data = await sendRpcRequest('getBlockHeight');
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getRecentBlockhash() {
+            const resultElement = document.getElementById('recentBlockhashResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            try {
+                const data = await sendRpcRequest('getRecentBlockhash');
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getBalance() {
+            const resultElement = document.getElementById('balanceResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            const walletAddress = document.getElementById('walletAddress').value;
+            if (!walletAddress) {
+                resultElement.textContent = 'Vui lòng nhập địa chỉ ví Solana';
+                return;
+            }
+            
+            try {
+                const data = await sendRpcRequest('getBalance', [walletAddress]);
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+
+        async function getAccountInfo() {
+            const resultElement = document.getElementById('accountInfoResult');
+            resultElement.textContent = 'Đang gửi yêu cầu...';
+            
+            const accountAddress = document.getElementById('accountAddress').value;
+            if (!accountAddress) {
+                resultElement.textContent = 'Vui lòng nhập địa chỉ tài khoản Solana';
+                return;
+            }
+            
+            try {
+                const data = await sendRpcRequest('getAccountInfo', [accountAddress, {encoding: "jsonParsed"}]);
+                resultElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultElement.textContent = `Lỗi: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html> 
