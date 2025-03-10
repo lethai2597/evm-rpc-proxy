@@ -20,20 +20,20 @@ class admin {
 	
 	static function nodeList() {
 		self::$last_error = false;
-		return self::run(self::$host."?action=solana_admin");
+		return self::run(self::$host."?action=evm_admin");
 	}
 	
 	static function nodeAdd($config_json, $replace_node_id = false)
 	{
 		self::$last_error = false;
 		$config_json = urlencode($config_json);
-		return self::run(self::$host."?action=solana_admin_add&node={$config_json}&remove_id={$replace_node_id}");
+		return self::run(self::$host."?action=evm_admin_add&node={$config_json}&remove_id={$replace_node_id}");
 	}
 	
 	static function nodeRemove($node_id = false)
 	{
 		self::$last_error = false;
-		$data = self::run(self::$host."?action=solana_admin_remove&id={$node_id}");
+		$data = self::run(self::$host."?action=evm_admin_remove&id={$node_id}");
 		return $data;
 	}
 }

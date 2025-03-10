@@ -1,0 +1,2436 @@
+[
+  {
+    "http": "103.180.28.86:8545",
+    "latency": 63,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8642335766423358
+  },
+  {
+    "http": "54.199.96.94:8545",
+    "ws": "54.199.96.94:8546",
+    "latency": 83,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8528791565287915
+  },
+  {
+    "http": "54.65.190.38:8545",
+    "ws": "54.65.190.38:8546",
+    "latency": 83,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8528791565287915
+  },
+  {
+    "http": "57.180.44.76:8545",
+    "latency": 83,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8528791565287915
+  },
+  {
+    "http": "35.78.131.18:8545",
+    "latency": 84,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8523114355231144
+  },
+  {
+    "http": "60.68.221.171:8545",
+    "ws": "60.68.221.171:8546",
+    "latency": 91,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8483373884833739
+  },
+  {
+    "http": "13.214.38.22:8545",
+    "ws": "13.214.38.22:8546",
+    "latency": 122,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8307380373073804
+  },
+  {
+    "http": "18.141.223.134:8545",
+    "ws": "18.141.223.134:8546",
+    "latency": 123,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8301703163017031
+  },
+  {
+    "http": "18.143.239.137:8545",
+    "latency": 126,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8284671532846716
+  },
+  {
+    "http": "150.5.140.237:8545",
+    "latency": 161,
+    "blockHeight": 21794465,
+    "performanceScore": 0.8085969180859692
+  },
+  {
+    "http": "211.228.230.60:8545",
+    "latency": 178,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7989456609894566
+  },
+  {
+    "http": "113.160.154.85:8545",
+    "latency": 179,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7983779399837794
+  },
+  {
+    "http": "15.235.183.208:8545",
+    "latency": 240,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7637469586374697
+  },
+  {
+    "http": "13.230.45.226:8545",
+    "latency": 84,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7523114355231144
+  },
+  {
+    "http": "171.234.135.165:8545",
+    "ws": "171.234.135.165:8546",
+    "latency": 261,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7518248175182483
+  },
+  {
+    "http": "64.130.49.102:8545",
+    "ws": "64.130.49.102:8546",
+    "latency": 85,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7517437145174372
+  },
+  {
+    "http": "156.59.230.136:8545",
+    "latency": 85,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7517437145174372
+  },
+  {
+    "http": "72.46.86.205:8545",
+    "latency": 87,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7506082725060828
+  },
+  {
+    "http": "20.83.235.215:8545",
+    "latency": 265,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7495539334955393
+  },
+  {
+    "http": "47.251.82.24:8545",
+    "ws": "47.251.82.24:8546",
+    "latency": 267,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7484184914841849
+  },
+  {
+    "http": "5.104.86.172:8545",
+    "latency": 272,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7455798864557989
+  },
+  {
+    "http": "199.245.101.61:8545",
+    "latency": 272,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7455798864557989
+  },
+  {
+    "http": "1.52.78.53:8545",
+    "latency": 99,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7437956204379562
+  },
+  {
+    "http": "208.73.201.14:8545",
+    "ws": "208.73.201.14:8546",
+    "latency": 285,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7381995133819952
+  },
+  {
+    "http": "15.204.104.146:8545",
+    "latency": 291,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7347931873479319
+  },
+  {
+    "http": "147.135.37.78:8545",
+    "ws": "147.135.37.78:8546",
+    "latency": 293,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7336577453365775
+  },
+  {
+    "http": "51.81.208.77:8545",
+    "ws": "51.81.208.77:8546",
+    "latency": 294,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7330900243309002
+  },
+  {
+    "http": "128.14.208.30:8545",
+    "ws": "128.14.208.30:8546",
+    "latency": 299,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7302514193025142
+  },
+  {
+    "http": "172.104.166.95:8545",
+    "ws": "172.104.166.95:8546",
+    "latency": 136,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7227899432278995
+  },
+  {
+    "http": "35.203.151.19:8545",
+    "latency": 320,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7183292781832928
+  },
+  {
+    "http": "154.53.59.19:8545",
+    "latency": 320,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7183292781832928
+  },
+  {
+    "http": "199.168.102.50:8545",
+    "ws": "199.168.102.50:8546",
+    "latency": 338,
+    "blockHeight": 21794465,
+    "performanceScore": 0.708110300081103
+  },
+  {
+    "http": "162.0.227.35:8545",
+    "latency": 338,
+    "blockHeight": 21794465,
+    "performanceScore": 0.708110300081103
+  },
+  {
+    "http": "185.26.8.239:8545",
+    "latency": 339,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7075425790754258
+  },
+  {
+    "http": "173.231.55.58:8545",
+    "latency": 340,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7069748580697486
+  },
+  {
+    "http": "73.35.140.112:8545",
+    "ws": "73.35.140.112:8546",
+    "latency": 341,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7064071370640714
+  },
+  {
+    "http": "84.32.220.94:8545",
+    "latency": 351,
+    "blockHeight": 21794465,
+    "performanceScore": 0.7007299270072993
+  },
+  {
+    "http": "152.32.174.168:8545",
+    "ws": "152.32.174.168:8546",
+    "latency": 175,
+    "blockHeight": 21794464,
+    "performanceScore": 0.7006488240064883
+  },
+  {
+    "http": "24.35.64.222:8545",
+    "latency": 353,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6995944849959448
+  },
+  {
+    "http": "84.32.32.141:8545",
+    "ws": "84.32.32.141:8546",
+    "latency": 357,
+    "blockHeight": 21794465,
+    "performanceScore": 0.697323600973236
+  },
+  {
+    "http": "84.32.71.215:8545",
+    "latency": 363,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6939172749391728
+  },
+  {
+    "http": "34.134.147.123:8545",
+    "ws": "34.134.147.123:8546",
+    "latency": 368,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6910786699107867
+  },
+  {
+    "http": "18.220.150.170:8545",
+    "latency": 370,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6899432278994323
+  },
+  {
+    "http": "69.2.42.115:8545",
+    "ws": "69.2.42.115:8546",
+    "latency": 374,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6876723438767235
+  },
+  {
+    "http": "40.160.12.227:8545",
+    "latency": 382,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6831305758313058
+  },
+  {
+    "http": "15.204.221.219:8545",
+    "ws": "15.204.221.219:8546",
+    "latency": 383,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6825628548256286
+  },
+  {
+    "http": "132.147.72.119:8545",
+    "latency": 383,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6825628548256286
+  },
+  {
+    "http": "209.126.6.120:8545",
+    "ws": "209.126.6.120:8546",
+    "latency": 386,
+    "blockHeight": 21794465,
+    "performanceScore": 0.680859691808597
+  },
+  {
+    "http": "162.254.36.204:8545",
+    "latency": 387,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6802919708029198
+  },
+  {
+    "http": "69.67.150.75:8545",
+    "latency": 389,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6791565287915653
+  },
+  {
+    "http": "205.209.106.50:8545",
+    "latency": 390,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6785888077858881
+  },
+  {
+    "http": "91.242.214.13:8545",
+    "ws": "91.242.214.13:8546",
+    "latency": 391,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6780210867802109
+  },
+  {
+    "http": "38.55.73.214:8545",
+    "ws": "38.55.73.214:8546",
+    "latency": 392,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6774533657745336
+  },
+  {
+    "http": "54.39.243.86:8545",
+    "latency": 392,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6774533657745336
+  },
+  {
+    "http": "148.113.189.3:8545",
+    "ws": "148.113.189.3:8546",
+    "latency": 392,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6774533657745336
+  },
+  {
+    "http": "69.67.150.77:8545",
+    "latency": 396,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6751824817518248
+  },
+  {
+    "http": "103.26.54.64:8545",
+    "ws": "103.26.54.64:8546",
+    "latency": 220,
+    "blockHeight": 21794464,
+    "performanceScore": 0.6751013787510138
+  },
+  {
+    "http": "69.67.151.138:8545",
+    "ws": "69.67.151.138:8546",
+    "latency": 398,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6740470397404704
+  },
+  {
+    "http": "101.46.209.175:8545",
+    "latency": 398,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6740470397404704
+  },
+  {
+    "http": "40.160.13.247:8545",
+    "ws": "40.160.13.247:8546",
+    "latency": 400,
+    "blockHeight": 21794465,
+    "performanceScore": 0.672911597729116
+  },
+  {
+    "http": "45.250.254.98:8545",
+    "ws": "45.250.254.98:8546",
+    "latency": 401,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6723438767234388
+  },
+  {
+    "http": "185.26.9.33:8545",
+    "ws": "185.26.9.33:8546",
+    "latency": 402,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6717761557177616
+  },
+  {
+    "http": "45.250.254.209:8545",
+    "ws": "45.250.254.209:8546",
+    "latency": 402,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6717761557177616
+  },
+  {
+    "http": "54.226.188.43:8545",
+    "ws": "54.226.188.43:8546",
+    "latency": 402,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6717761557177616
+  },
+  {
+    "http": "172.111.38.87:8545",
+    "latency": 403,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6712084347120844
+  },
+  {
+    "http": "3.90.108.20:8545",
+    "latency": 404,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6706407137064072
+  },
+  {
+    "http": "103.106.59.143:8545",
+    "latency": 404,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6706407137064072
+  },
+  {
+    "http": "45.250.254.147:8545",
+    "latency": 406,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6695052716950527
+  },
+  {
+    "http": "107.22.67.13:8545",
+    "ws": "107.22.67.13:8546",
+    "latency": 407,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6689375506893755
+  },
+  {
+    "http": "45.250.253.69:8545",
+    "ws": "45.250.253.69:8546",
+    "latency": 408,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6683698296836984
+  },
+  {
+    "http": "45.250.253.120:8545",
+    "latency": 408,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6683698296836984
+  },
+  {
+    "http": "172.167.162.25:8545",
+    "latency": 409,
+    "blockHeight": 21794465,
+    "performanceScore": 0.667802108678021
+  },
+  {
+    "http": "38.97.40.127:8545",
+    "latency": 409,
+    "blockHeight": 21794465,
+    "performanceScore": 0.667802108678021
+  },
+  {
+    "http": "206.72.206.122:8545",
+    "ws": "206.72.206.122:8546",
+    "latency": 409,
+    "blockHeight": 21794465,
+    "performanceScore": 0.667802108678021
+  },
+  {
+    "http": "44.200.85.77:8545",
+    "ws": "44.200.85.77:8546",
+    "latency": 410,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6672343876723439
+  },
+  {
+    "http": "40.160.12.226:8545",
+    "latency": 412,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6660989456609895
+  },
+  {
+    "http": "15.204.221.134:8545",
+    "ws": "15.204.221.134:8546",
+    "latency": 413,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6655312246553122
+  },
+  {
+    "http": "51.81.106.64:8545",
+    "ws": "51.81.106.64:8546",
+    "latency": 414,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6649635036496351
+  },
+  {
+    "http": "162.245.185.15:8545",
+    "ws": "162.245.185.15:8546",
+    "latency": 414,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6649635036496351
+  },
+  {
+    "http": "212.28.188.236:8545",
+    "ws": "212.28.188.236:8546",
+    "latency": 414,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6649635036496351
+  },
+  {
+    "http": "169.197.140.194:8545",
+    "ws": "169.197.140.194:8546",
+    "latency": 415,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6643957826439578
+  },
+  {
+    "http": "51.79.228.226:8545",
+    "ws": "51.79.228.226:8546",
+    "latency": 239,
+    "blockHeight": 21794464,
+    "performanceScore": 0.6643146796431468
+  },
+  {
+    "http": "173.214.162.186:8545",
+    "ws": "173.214.162.186:8546",
+    "latency": 419,
+    "blockHeight": 21794465,
+    "performanceScore": 0.662124898621249
+  },
+  {
+    "http": "47.204.15.78:8545",
+    "latency": 424,
+    "blockHeight": 21794465,
+    "performanceScore": 0.659286293592863
+  },
+  {
+    "http": "34.140.177.184:8545",
+    "latency": 430,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6558799675587996
+  },
+  {
+    "http": "136.243.38.240:8545",
+    "ws": "136.243.38.240:8546",
+    "latency": 447,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6462287104622871
+  },
+  {
+    "http": "162.55.20.152:8545",
+    "ws": "162.55.20.152:8546",
+    "latency": 447,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6462287104622871
+  },
+  {
+    "http": "88.198.70.46:8545",
+    "ws": "88.198.70.46:8546",
+    "latency": 447,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6462287104622871
+  },
+  {
+    "http": "144.76.90.227:8545",
+    "ws": "144.76.90.227:8546",
+    "latency": 448,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6456609894566099
+  },
+  {
+    "http": "176.9.99.121:8545",
+    "ws": "176.9.99.121:8546",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "213.239.193.179:8545",
+    "ws": "213.239.193.179:8546",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "3.134.193.228:8545",
+    "ws": "3.134.193.228:8546",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "54.87.59.252:8545",
+    "ws": "54.87.59.252:8546",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "45.250.254.89:8545",
+    "ws": "45.250.254.89:8546",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "138.201.103.184:8545",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "94.130.90.48:8545",
+    "latency": 449,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6450932684509327
+  },
+  {
+    "http": "116.202.240.96:8545",
+    "ws": "116.202.240.96:8546",
+    "latency": 450,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6445255474452556
+  },
+  {
+    "http": "176.9.51.115:8545",
+    "ws": "176.9.51.115:8546",
+    "latency": 450,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6445255474452556
+  },
+  {
+    "http": "49.12.83.145:8545",
+    "ws": "49.12.83.145:8546",
+    "latency": 450,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6445255474452556
+  },
+  {
+    "http": "198.178.224.11:8545",
+    "ws": "198.178.224.11:8546",
+    "latency": 450,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6445255474452556
+  },
+  {
+    "http": "142.132.208.251:8545",
+    "ws": "142.132.208.251:8546",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "142.132.152.169:8545",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "35.244.65.132:8545",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "35.198.242.244:8545",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "15.204.215.78:8545",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "5.9.85.89:8545",
+    "ws": "5.9.85.89:8546",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "116.202.174.111:8545",
+    "ws": "116.202.174.111:8546",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "103.241.50.31:8545",
+    "ws": "103.241.50.31:8546",
+    "latency": 451,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6439578264395783
+  },
+  {
+    "http": "103.241.61.41:8545",
+    "latency": 107,
+    "blockHeight": 21794466,
+    "performanceScore": 0.6392538523925385
+  },
+  {
+    "http": "147.135.97.187:8545",
+    "latency": 292,
+    "blockHeight": 21794464,
+    "performanceScore": 0.6342254663422546
+  },
+  {
+    "http": "136.175.8.179:8545",
+    "ws": "136.175.8.179:8546",
+    "latency": 292,
+    "blockHeight": 21794464,
+    "performanceScore": 0.6342254663422546
+  },
+  {
+    "http": "13.251.110.197:8545",
+    "ws": "13.251.110.197:8546",
+    "latency": 123,
+    "blockHeight": 21794466,
+    "performanceScore": 0.6301703163017032
+  },
+  {
+    "http": "135.181.223.39:8545",
+    "latency": 478,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6286293592862937
+  },
+  {
+    "http": "65.108.66.225:8545",
+    "latency": 479,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6280616382806165
+  },
+  {
+    "http": "65.109.79.240:8545",
+    "latency": 479,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6280616382806165
+  },
+  {
+    "http": "37.27.60.118:8545",
+    "latency": 479,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6280616382806165
+  },
+  {
+    "http": "135.181.212.21:8545",
+    "latency": 479,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6280616382806165
+  },
+  {
+    "http": "65.21.143.109:8545",
+    "ws": "65.21.143.109:8546",
+    "latency": 480,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6274939172749392
+  },
+  {
+    "http": "65.108.67.21:8545",
+    "ws": "65.108.67.21:8546",
+    "latency": 481,
+    "blockHeight": 21794465,
+    "performanceScore": 0.626926196269262
+  },
+  {
+    "http": "65.21.45.125:8545",
+    "latency": 482,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6263584752635848
+  },
+  {
+    "http": "135.181.132.228:8545",
+    "latency": 483,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6257907542579075
+  },
+  {
+    "http": "135.181.244.7:8545",
+    "latency": 483,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6257907542579075
+  },
+  {
+    "http": "65.21.116.25:8545",
+    "ws": "65.21.116.25:8546",
+    "latency": 483,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6257907542579075
+  },
+  {
+    "http": "65.109.124.76:8545",
+    "ws": "65.109.124.76:8546",
+    "latency": 483,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6257907542579075
+  },
+  {
+    "http": "34.176.88.47:8545",
+    "latency": 486,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6240875912408759
+  },
+  {
+    "http": "135.181.77.97:8545",
+    "ws": "135.181.77.97:8546",
+    "latency": 487,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6235198702351987
+  },
+  {
+    "http": "202.168.6.20:8545",
+    "ws": "202.168.6.20:8546",
+    "latency": 492,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6206812652068127
+  },
+  {
+    "http": "115.246.244.198:8545",
+    "ws": "115.246.244.198:8546",
+    "latency": 493,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6201135442011355
+  },
+  {
+    "http": "204.16.242.154:8545",
+    "latency": 499,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6167072181670723
+  },
+  {
+    "http": "204.16.241.203:8545",
+    "ws": "204.16.241.203:8546",
+    "latency": 502,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6150040551500406
+  },
+  {
+    "http": "46.165.193.202:8545",
+    "latency": 507,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6121654501216545
+  },
+  {
+    "http": "173.231.48.26:8545",
+    "latency": 331,
+    "blockHeight": 21794464,
+    "performanceScore": 0.6120843471208435
+  },
+  {
+    "http": "185.144.99.46:8545",
+    "ws": "185.144.99.46:8546",
+    "latency": 508,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6115977291159773
+  },
+  {
+    "http": "130.61.12.162:8545",
+    "latency": 510,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6104622871046229
+  },
+  {
+    "http": "34.159.60.150:8545",
+    "latency": 512,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6093268450932685
+  },
+  {
+    "http": "202.61.236.104:8545",
+    "ws": "202.61.236.104:8546",
+    "latency": 514,
+    "blockHeight": 21794465,
+    "performanceScore": 0.608191403081914
+  },
+  {
+    "http": "212.95.53.139:8545",
+    "latency": 514,
+    "blockHeight": 21794465,
+    "performanceScore": 0.608191403081914
+  },
+  {
+    "http": "202.61.200.158:8545",
+    "ws": "202.61.200.158:8546",
+    "latency": 520,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6047850770478508
+  },
+  {
+    "http": "95.214.55.53:8545",
+    "latency": 527,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6008110300081104
+  },
+  {
+    "http": "93.183.95.74:8545",
+    "latency": 528,
+    "blockHeight": 21794465,
+    "performanceScore": 0.6002433090024332
+  },
+  {
+    "http": "35.246.211.116:8545",
+    "latency": 530,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5991078669910788
+  },
+  {
+    "http": "5.10.24.116:8545",
+    "ws": "5.10.24.116:8546",
+    "latency": 531,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5985401459854015
+  },
+  {
+    "http": "217.155.15.132:8545",
+    "ws": "217.155.15.132:8546",
+    "latency": 535,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5962692619626926
+  },
+  {
+    "http": "5.199.172.4:8545",
+    "ws": "5.199.172.4:8546",
+    "latency": 535,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5962692619626926
+  },
+  {
+    "http": "54.179.194.55:8545",
+    "ws": "54.179.194.55:8546",
+    "latency": 184,
+    "blockHeight": 21794466,
+    "performanceScore": 0.5955393349553934
+  },
+  {
+    "http": "198.244.229.79:8545",
+    "latency": 543,
+    "blockHeight": 21794465,
+    "performanceScore": 0.591727493917275
+  },
+  {
+    "http": "18.133.65.247:8545",
+    "ws": "18.133.65.247:8546",
+    "latency": 547,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5894566098945662
+  },
+  {
+    "http": "18.170.59.255:8545",
+    "ws": "18.170.59.255:8546",
+    "latency": 549,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5883211678832116
+  },
+  {
+    "http": "161.97.160.201:8545",
+    "ws": "161.97.160.201:8546",
+    "latency": 550,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5877534468775345
+  },
+  {
+    "http": "51.195.234.24:8545",
+    "ws": "51.195.234.24:8546",
+    "latency": 550,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5877534468775345
+  },
+  {
+    "http": "91.134.59.204:8545",
+    "latency": 553,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5860502838605028
+  },
+  {
+    "http": "38.242.193.5:8545",
+    "latency": 554,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5854825628548257
+  },
+  {
+    "http": "142.132.213.251:8545",
+    "latency": 554,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5854825628548257
+  },
+  {
+    "http": "159.69.73.166:8545",
+    "latency": 554,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5854825628548257
+  },
+  {
+    "http": "213.136.89.196:8545",
+    "ws": "213.136.89.196:8546",
+    "latency": 555,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5849148418491484
+  },
+  {
+    "http": "103.50.32.242:8545",
+    "latency": 555,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5849148418491484
+  },
+  {
+    "http": "148.251.42.112:8545",
+    "latency": 555,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5849148418491484
+  },
+  {
+    "http": "49.12.58.248:8545",
+    "ws": "49.12.58.248:8546",
+    "latency": 556,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5843471208434712
+  },
+  {
+    "http": "46.105.70.24:8545",
+    "latency": 558,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5832116788321169
+  },
+  {
+    "http": "162.19.126.9:8545",
+    "latency": 560,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5820762368207624
+  },
+  {
+    "http": "103.219.171.47:8545",
+    "latency": 560,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5820762368207624
+  },
+  {
+    "http": "162.19.126.14:8545",
+    "ws": "162.19.126.14:8546",
+    "latency": 561,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5815085158150852
+  },
+  {
+    "http": "57.129.53.254:8545",
+    "latency": 563,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5803730738037307
+  },
+  {
+    "http": "37.202.57.164:8545",
+    "ws": "37.202.57.164:8546",
+    "latency": 563,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5803730738037307
+  },
+  {
+    "http": "162.19.169.119:8545",
+    "ws": "162.19.169.119:8546",
+    "latency": 566,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5786699107866992
+  },
+  {
+    "http": "23.109.28.148:8545",
+    "latency": 572,
+    "blockHeight": 21794465,
+    "performanceScore": 0.575263584752636
+  },
+  {
+    "http": "45.250.254.59:8545",
+    "ws": "45.250.254.59:8546",
+    "latency": 400,
+    "blockHeight": 21794464,
+    "performanceScore": 0.572911597729116
+  },
+  {
+    "http": "84.32.186.114:8545",
+    "ws": "84.32.186.114:8546",
+    "latency": 579,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5712895377128955
+  },
+  {
+    "http": "141.95.3.61:8545",
+    "ws": "141.95.3.61:8546",
+    "latency": 580,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5707218167072182
+  },
+  {
+    "http": "15.235.218.151:8545",
+    "latency": 232,
+    "blockHeight": 21794466,
+    "performanceScore": 0.5682887266828873
+  },
+  {
+    "http": "65.108.13.124:8545",
+    "ws": "65.108.13.124:8546",
+    "latency": 587,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5667477696674778
+  },
+  {
+    "http": "65.108.72.227:8545",
+    "latency": 589,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5656123276561233
+  },
+  {
+    "http": "37.27.169.240:8545",
+    "latency": 590,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5650446066504461
+  },
+  {
+    "http": "135.181.191.125:8545",
+    "latency": 590,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5650446066504461
+  },
+  {
+    "http": "95.217.202.159:8545",
+    "latency": 591,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5644768856447688
+  },
+  {
+    "http": "104.36.201.79:8545",
+    "latency": 598,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5605028386050284
+  },
+  {
+    "http": "37.223.103.76:8545",
+    "latency": 599,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5599351175993512
+  },
+  {
+    "http": "79.116.27.227:8545",
+    "ws": "79.116.27.227:8546",
+    "latency": 599,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5599351175993512
+  },
+  {
+    "http": "45.145.43.36:8545",
+    "latency": 600,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5593673965936741
+  },
+  {
+    "http": "146.59.1.191:8545",
+    "ws": "146.59.1.191:8546",
+    "latency": 601,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5587996755879968
+  },
+  {
+    "http": "205.172.59.75:8545",
+    "latency": 604,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5570965125709652
+  },
+  {
+    "http": "62.194.99.212:8545",
+    "latency": 605,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5565287915652879
+  },
+  {
+    "http": "146.59.111.82:8545",
+    "latency": 605,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5565287915652879
+  },
+  {
+    "http": "5.9.17.153:8545",
+    "ws": "5.9.17.153:8546",
+    "latency": 610,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5536901865369019
+  },
+  {
+    "http": "23.88.74.233:8545",
+    "ws": "23.88.74.233:8546",
+    "latency": 611,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5531224655312247
+  },
+  {
+    "http": "167.235.99.181:8545",
+    "ws": "167.235.99.181:8546",
+    "latency": 611,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5531224655312247
+  },
+  {
+    "http": "3.8.16.119:8545",
+    "ws": "3.8.16.119:8546",
+    "latency": 614,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5514193025141931
+  },
+  {
+    "http": "35.158.165.83:8545",
+    "ws": "35.158.165.83:8546",
+    "latency": 616,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5502838605028386
+  },
+  {
+    "http": "88.198.50.92:8545",
+    "latency": 620,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5480129764801298
+  },
+  {
+    "http": "162.55.2.28:8545",
+    "ws": "162.55.2.28:8546",
+    "latency": 620,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5480129764801298
+  },
+  {
+    "http": "178.63.225.205:8545",
+    "ws": "178.63.225.205:8546",
+    "latency": 620,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5480129764801298
+  },
+  {
+    "http": "195.201.192.91:8545",
+    "ws": "195.201.192.91:8546",
+    "latency": 621,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5474452554744526
+  },
+  {
+    "http": "176.9.3.153:8545",
+    "ws": "176.9.3.153:8546",
+    "latency": 621,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5474452554744526
+  },
+  {
+    "http": "162.55.199.75:8545",
+    "ws": "162.55.199.75:8546",
+    "latency": 622,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5468775344687754
+  },
+  {
+    "http": "78.46.36.59:8545",
+    "ws": "78.46.36.59:8546",
+    "latency": 622,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5468775344687754
+  },
+  {
+    "http": "5.9.95.12:8545",
+    "ws": "5.9.95.12:8546",
+    "latency": 448,
+    "blockHeight": 21794464,
+    "performanceScore": 0.5456609894566099
+  },
+  {
+    "http": "54.247.249.98:8545",
+    "ws": "54.247.249.98:8546",
+    "latency": 631,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5417680454176805
+  },
+  {
+    "http": "35.246.212.151:8545",
+    "latency": 635,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5394971613949717
+  },
+  {
+    "http": "23.88.88.119:8545",
+    "latency": 636,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5389294403892944
+  },
+  {
+    "http": "45.56.163.110:8545",
+    "latency": 284,
+    "blockHeight": 21794466,
+    "performanceScore": 0.5387672343876724
+  },
+  {
+    "http": "168.119.70.8:8545",
+    "ws": "168.119.70.8:8546",
+    "latency": 637,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5383617193836172
+  },
+  {
+    "http": "136.243.39.253:8545",
+    "latency": 638,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5377939983779401
+  },
+  {
+    "http": "144.76.43.227:8545",
+    "ws": "144.76.43.227:8546",
+    "latency": 641,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5360908353609084
+  },
+  {
+    "http": "168.119.138.215:8545",
+    "latency": 641,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5360908353609084
+  },
+  {
+    "http": "46.4.50.12:8545",
+    "ws": "46.4.50.12:8546",
+    "latency": 641,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5360908353609084
+  },
+  {
+    "http": "81.214.132.27:8545",
+    "latency": 641,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5360908353609084
+  },
+  {
+    "http": "148.251.134.101:8545",
+    "ws": "148.251.134.101:8546",
+    "latency": 642,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5355231143552311
+  },
+  {
+    "http": "195.201.104.103:8545",
+    "latency": 642,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5355231143552311
+  },
+  {
+    "http": "65.108.75.196:8545",
+    "ws": "65.108.75.196:8546",
+    "latency": 644,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5343876723438767
+  },
+  {
+    "http": "135.181.239.29:8545",
+    "latency": 645,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5338199513381996
+  },
+  {
+    "http": "65.108.199.204:8545",
+    "ws": "65.108.199.204:8546",
+    "latency": 645,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5338199513381996
+  },
+  {
+    "http": "152.53.17.75:8545",
+    "ws": "152.53.17.75:8546",
+    "latency": 652,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5298459042984591
+  },
+  {
+    "http": "135.181.229.179:8545",
+    "ws": "135.181.229.179:8546",
+    "latency": 653,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5292781832927819
+  },
+  {
+    "http": "135.181.227.164:8545",
+    "ws": "135.181.227.164:8546",
+    "latency": 653,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5292781832927819
+  },
+  {
+    "http": "95.216.1.15:8545",
+    "ws": "95.216.1.15:8546",
+    "latency": 655,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5281427412814275
+  },
+  {
+    "http": "135.181.209.219:8545",
+    "latency": 656,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5275750202757503
+  },
+  {
+    "http": "45.63.86.104:8545",
+    "ws": "45.63.86.104:8546",
+    "latency": 304,
+    "blockHeight": 21794466,
+    "performanceScore": 0.5274128142741281
+  },
+  {
+    "http": "95.217.143.176:8545",
+    "ws": "95.217.143.176:8546",
+    "latency": 657,
+    "blockHeight": 21794465,
+    "performanceScore": 0.527007299270073
+  },
+  {
+    "http": "37.27.96.52:8545",
+    "latency": 657,
+    "blockHeight": 21794465,
+    "performanceScore": 0.527007299270073
+  },
+  {
+    "http": "34.88.37.33:8545",
+    "ws": "34.88.37.33:8546",
+    "latency": 483,
+    "blockHeight": 21794464,
+    "performanceScore": 0.5257907542579076
+  },
+  {
+    "http": "34.176.220.137:8545",
+    "latency": 486,
+    "blockHeight": 21794464,
+    "performanceScore": 0.5240875912408759
+  },
+  {
+    "http": "66.243.250.149:8545",
+    "latency": 312,
+    "blockHeight": 21794466,
+    "performanceScore": 0.5228710462287105
+  },
+  {
+    "http": "31.172.68.204:8545",
+    "latency": 667,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5213300892133009
+  },
+  {
+    "http": "65.109.32.159:8545",
+    "latency": 671,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5190592051905921
+  },
+  {
+    "http": "65.21.20.51:8545",
+    "ws": "65.21.20.51:8546",
+    "latency": 672,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5184914841849149
+  },
+  {
+    "http": "37.27.169.239:8545",
+    "latency": 672,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5184914841849149
+  },
+  {
+    "http": "65.109.74.174:8545",
+    "ws": "65.109.74.174:8546",
+    "latency": 672,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5184914841849149
+  },
+  {
+    "http": "65.109.145.160:8545",
+    "ws": "65.109.145.160:8546",
+    "latency": 673,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5179237631792377
+  },
+  {
+    "http": "95.216.64.51:8545",
+    "latency": 673,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5179237631792377
+  },
+  {
+    "http": "35.198.150.195:8545",
+    "latency": 675,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5167883211678832
+  },
+  {
+    "http": "35.222.151.168:8545",
+    "latency": 676,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5162206001622061
+  },
+  {
+    "http": "97.133.34.73:8545",
+    "latency": 325,
+    "blockHeight": 21794466,
+    "performanceScore": 0.5154906731549067
+  },
+  {
+    "http": "94.110.52.211:8545",
+    "latency": 680,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5139497161394972
+  },
+  {
+    "http": "185.44.206.111:8545",
+    "latency": 684,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5116788321167884
+  },
+  {
+    "http": "82.100.62.135:8545",
+    "ws": "82.100.62.135:8546",
+    "latency": 695,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5054339010543389
+  },
+  {
+    "http": "64.227.72.153:8545",
+    "latency": 697,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5042984590429846
+  },
+  {
+    "http": "34.30.118.237:8545",
+    "latency": 697,
+    "blockHeight": 21794465,
+    "performanceScore": 0.5042984590429846
+  },
+  {
+    "http": "194.195.209.233:8545",
+    "latency": 365,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4927818329278184
+  },
+  {
+    "http": "35.226.9.116:8545",
+    "ws": "35.226.9.116:8546",
+    "latency": 368,
+    "blockHeight": 21794466,
+    "performanceScore": 0.49107866991078675
+  },
+  {
+    "http": "3.143.14.91:8545",
+    "ws": "3.143.14.91:8546",
+    "latency": 370,
+    "blockHeight": 21794466,
+    "performanceScore": 0.48994322789943223
+  },
+  {
+    "http": "186.233.187.140:8545",
+    "latency": 373,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4882400648824007
+  },
+  {
+    "http": "213.199.52.64:8545",
+    "ws": "213.199.52.64:8546",
+    "latency": 551,
+    "blockHeight": 21794464,
+    "performanceScore": 0.48718572587185727
+  },
+  {
+    "http": "147.135.76.73:8545",
+    "latency": 380,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4842660178426602
+  },
+  {
+    "http": "73.32.77.162:8545",
+    "latency": 380,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4842660178426602
+  },
+  {
+    "http": "185.26.11.89:8545",
+    "ws": "185.26.11.89:8546",
+    "latency": 558,
+    "blockHeight": 21794464,
+    "performanceScore": 0.4832116788321168
+  },
+  {
+    "http": "40.160.13.95:8545",
+    "latency": 382,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4831305758313058
+  },
+  {
+    "http": "104.254.244.198:8545",
+    "latency": 387,
+    "blockHeight": 21794466,
+    "performanceScore": 0.48029197080291974
+  },
+  {
+    "http": "38.55.73.211:8545",
+    "ws": "38.55.73.211:8546",
+    "latency": 389,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47915652879156534
+  },
+  {
+    "http": "69.67.150.95:8545",
+    "latency": 391,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47802108678021094
+  },
+  {
+    "http": "147.135.77.125:8545",
+    "latency": 392,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4774533657745337
+  },
+  {
+    "http": "45.250.254.189:8545",
+    "latency": 397,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4746147607461476
+  },
+  {
+    "http": "209.159.148.226:8545",
+    "ws": "209.159.148.226:8546",
+    "latency": 399,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4734793187347932
+  },
+  {
+    "http": "3.227.27.27:8545",
+    "ws": "3.227.27.27:8546",
+    "latency": 400,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47291159772911606
+  },
+  {
+    "http": "147.135.79.4:8545",
+    "latency": 400,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47291159772911606
+  },
+  {
+    "http": "74.50.75.74:8545",
+    "latency": 403,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4712084347120844
+  },
+  {
+    "http": "3.235.186.52:8545",
+    "ws": "3.235.186.52:8546",
+    "latency": 403,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4712084347120844
+  },
+  {
+    "http": "178.156.151.20:8545",
+    "ws": "178.156.151.20:8546",
+    "latency": 404,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47064071370640714
+  },
+  {
+    "http": "40.160.21.180:8545",
+    "latency": 404,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47064071370640714
+  },
+  {
+    "http": "52.23.142.230:8545",
+    "latency": 404,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47064071370640714
+  },
+  {
+    "http": "54.198.32.73:8545",
+    "ws": "54.198.32.73:8546",
+    "latency": 405,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47007299270073
+  },
+  {
+    "http": "54.145.57.0:8545",
+    "ws": "54.145.57.0:8546",
+    "latency": 405,
+    "blockHeight": 21794466,
+    "performanceScore": 0.47007299270073
+  },
+  {
+    "http": "40.160.12.248:8545",
+    "ws": "40.160.12.248:8546",
+    "latency": 408,
+    "blockHeight": 21794466,
+    "performanceScore": 0.46836982968369834
+  },
+  {
+    "http": "40.160.21.169:8545",
+    "latency": 410,
+    "blockHeight": 21794466,
+    "performanceScore": 0.46723438767234393
+  },
+  {
+    "http": "34.159.234.134:8545",
+    "latency": 419,
+    "blockHeight": 21794466,
+    "performanceScore": 0.46212489862124906
+  },
+  {
+    "http": "147.135.65.117:8545",
+    "ws": "147.135.65.117:8546",
+    "latency": 419,
+    "blockHeight": 21794466,
+    "performanceScore": 0.46212489862124906
+  },
+  {
+    "http": "3.123.34.95:8545",
+    "ws": "3.123.34.95:8546",
+    "latency": 442,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44906731549067325
+  },
+  {
+    "http": "51.158.248.29:8545",
+    "ws": "51.158.248.29:8546",
+    "latency": 443,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4484995944849959
+  },
+  {
+    "http": "178.18.254.17:8545",
+    "latency": 620,
+    "blockHeight": 21794464,
+    "performanceScore": 0.44801297648012983
+  },
+  {
+    "http": "94.16.122.58:8545",
+    "ws": "94.16.122.58:8546",
+    "latency": 446,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44679643146796433
+  },
+  {
+    "http": "80.79.6.99:8545",
+    "ws": "80.79.6.99:8546",
+    "latency": 447,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44622871046228707
+  },
+  {
+    "http": "144.76.112.18:8545",
+    "latency": 447,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44622871046228707
+  },
+  {
+    "http": "157.90.130.142:8545",
+    "ws": "157.90.130.142:8546",
+    "latency": 447,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44622871046228707
+  },
+  {
+    "http": "144.76.120.201:8545",
+    "latency": 448,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4456609894566099
+  },
+  {
+    "http": "142.132.135.41:8545",
+    "ws": "142.132.135.41:8546",
+    "latency": 448,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4456609894566099
+  },
+  {
+    "http": "167.235.11.169:8545",
+    "ws": "167.235.11.169:8546",
+    "latency": 448,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4456609894566099
+  },
+  {
+    "http": "54.93.69.184:8545",
+    "ws": "54.93.69.184:8546",
+    "latency": 449,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4450932684509328
+  },
+  {
+    "http": "144.76.203.208:8545",
+    "ws": "144.76.203.208:8546",
+    "latency": 449,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4450932684509328
+  },
+  {
+    "http": "49.12.58.251:8545",
+    "ws": "49.12.58.251:8546",
+    "latency": 450,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4445255474452555
+  },
+  {
+    "http": "81.0.214.216:8545",
+    "latency": 450,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4445255474452555
+  },
+  {
+    "http": "23.88.0.168:8545",
+    "latency": 450,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4445255474452555
+  },
+  {
+    "http": "78.46.142.88:8545",
+    "ws": "78.46.142.88:8546",
+    "latency": 451,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44395782643957826
+  },
+  {
+    "http": "162.55.230.100:8545",
+    "latency": 452,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4433901054339011
+  },
+  {
+    "http": "5.9.111.123:8545",
+    "ws": "5.9.111.123:8546",
+    "latency": 453,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44282238442822386
+  },
+  {
+    "http": "168.119.137.89:8545",
+    "ws": "168.119.137.89:8546",
+    "latency": 453,
+    "blockHeight": 21794466,
+    "performanceScore": 0.44282238442822386
+  },
+  {
+    "http": "23.88.77.175:8545",
+    "latency": 454,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4422546634225466
+  },
+  {
+    "http": "157.90.95.60:8545",
+    "ws": "157.90.95.60:8546",
+    "latency": 454,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4422546634225466
+  },
+  {
+    "http": "159.69.69.232:8545",
+    "latency": 454,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4422546634225466
+  },
+  {
+    "http": "142.132.209.104:8545",
+    "latency": 454,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4422546634225466
+  },
+  {
+    "http": "148.251.232.135:8545",
+    "ws": "148.251.232.135:8546",
+    "latency": 454,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4422546634225466
+  },
+  {
+    "http": "144.76.157.179:8545",
+    "ws": "144.76.157.179:8546",
+    "latency": 454,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4422546634225466
+  },
+  {
+    "http": "152.53.84.110:8545",
+    "ws": "152.53.84.110:8546",
+    "latency": 460,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4388483373884834
+  },
+  {
+    "http": "34.116.83.11:8545",
+    "latency": 478,
+    "blockHeight": 21794466,
+    "performanceScore": 0.42862935928629364
+  },
+  {
+    "http": "65.109.154.152:8545",
+    "ws": "65.109.154.152:8546",
+    "latency": 479,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4280616382806164
+  },
+  {
+    "http": "65.109.25.53:8545",
+    "latency": 479,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4280616382806164
+  },
+  {
+    "http": "135.181.118.23:8545",
+    "latency": 480,
+    "blockHeight": 21794466,
+    "performanceScore": 0.42749391727493924
+  },
+  {
+    "http": "65.109.83.190:8545",
+    "ws": "65.109.83.190:8546",
+    "latency": 481,
+    "blockHeight": 21794466,
+    "performanceScore": 0.426926196269262
+  },
+  {
+    "http": "95.217.197.172:8545",
+    "latency": 481,
+    "blockHeight": 21794466,
+    "performanceScore": 0.426926196269262
+  },
+  {
+    "http": "65.109.158.58:8545",
+    "latency": 482,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4263584752635847
+  },
+  {
+    "http": "135.181.19.230:8545",
+    "latency": 482,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4263584752635847
+  },
+  {
+    "http": "37.27.123.210:8545",
+    "latency": 484,
+    "blockHeight": 21794466,
+    "performanceScore": 0.42522303325223043
+  },
+  {
+    "http": "65.109.70.245:8545",
+    "latency": 485,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4246553122465532
+  },
+  {
+    "http": "65.21.233.86:8545",
+    "ws": "65.21.233.86:8546",
+    "latency": 487,
+    "blockHeight": 21794466,
+    "performanceScore": 0.42351987023519877
+  },
+  {
+    "http": "95.217.122.80:8545",
+    "ws": "95.217.122.80:8546",
+    "latency": 487,
+    "blockHeight": 21794466,
+    "performanceScore": 0.42351987023519877
+  },
+  {
+    "http": "65.108.141.80:8545",
+    "ws": "65.108.141.80:8546",
+    "latency": 488,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4229521492295215
+  },
+  {
+    "http": "95.217.34.145:8545",
+    "ws": "95.217.34.145:8546",
+    "latency": 488,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4229521492295215
+  },
+  {
+    "http": "37.27.55.154:8545",
+    "ws": "37.27.55.154:8546",
+    "latency": 491,
+    "blockHeight": 21794466,
+    "performanceScore": 0.42124898621248996
+  },
+  {
+    "http": "2.58.67.110:8545",
+    "ws": "2.58.67.110:8546",
+    "latency": 495,
+    "blockHeight": 21794466,
+    "performanceScore": 0.41897810218978104
+  },
+  {
+    "http": "185.137.233.194:8545",
+    "ws": "185.137.233.194:8546",
+    "latency": 498,
+    "blockHeight": 21794466,
+    "performanceScore": 0.4172749391727495
+  },
+  {
+    "http": "202.61.239.89:8545",
+    "latency": 516,
+    "blockHeight": 21794466,
+    "performanceScore": 0.40705596107055964
+  },
+  {
+    "http": "103.50.32.241:8545",
+    "latency": 532,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3979724249797243
+  },
+  {
+    "http": "103.219.168.221:8545",
+    "latency": 541,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3928629359286293
+  },
+  {
+    "http": "122.165.42.108:8545",
+    "ws": "122.165.42.108:8546",
+    "latency": 541,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3928629359286293
+  },
+  {
+    "http": "103.50.32.121:8545",
+    "ws": "103.50.32.121:8546",
+    "latency": 542,
+    "blockHeight": 21794466,
+    "performanceScore": 0.39229521492295216
+  },
+  {
+    "http": "34.159.67.238:8545",
+    "latency": 542,
+    "blockHeight": 21794466,
+    "performanceScore": 0.39229521492295216
+  },
+  {
+    "http": "188.165.77.52:8545",
+    "latency": 545,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3905920519059205
+  },
+  {
+    "http": "79.137.88.244:8545",
+    "latency": 545,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3905920519059205
+  },
+  {
+    "http": "3.11.13.82:8545",
+    "ws": "3.11.13.82:8546",
+    "latency": 552,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38661800486618003
+  },
+  {
+    "http": "79.137.100.42:8545",
+    "ws": "79.137.100.42:8546",
+    "latency": 553,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3860502838605029
+  },
+  {
+    "http": "3.68.183.155:8545",
+    "latency": 554,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38548256285482563
+  },
+  {
+    "http": "149.202.72.78:8545",
+    "ws": "149.202.72.78:8546",
+    "latency": 554,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38548256285482563
+  },
+  {
+    "http": "66.245.195.254:8545",
+    "latency": 555,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38491484184914837
+  },
+  {
+    "http": "128.140.70.145:8545",
+    "ws": "128.140.70.145:8546",
+    "latency": 555,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38491484184914837
+  },
+  {
+    "http": "157.90.1.108:8545",
+    "ws": "157.90.1.108:8546",
+    "latency": 558,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3832116788321168
+  },
+  {
+    "http": "162.55.20.68:8545",
+    "ws": "162.55.20.68:8546",
+    "latency": 558,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3832116788321168
+  },
+  {
+    "http": "94.130.16.212:8545",
+    "latency": 559,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38264395782643956
+  },
+  {
+    "http": "5.9.101.146:8545",
+    "ws": "5.9.101.146:8546",
+    "latency": 559,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38264395782643956
+  },
+  {
+    "http": "158.220.114.42:8545",
+    "ws": "158.220.114.42:8546",
+    "latency": 560,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3820762368207624
+  },
+  {
+    "http": "173.212.208.33:8545",
+    "ws": "173.212.208.33:8546",
+    "latency": 560,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3820762368207624
+  },
+  {
+    "http": "91.134.31.159:8545",
+    "ws": "91.134.31.159:8546",
+    "latency": 560,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3820762368207624
+  },
+  {
+    "http": "212.117.188.212:8545",
+    "ws": "212.117.188.212:8546",
+    "latency": 563,
+    "blockHeight": 21794466,
+    "performanceScore": 0.38037307380373075
+  },
+  {
+    "http": "213.136.77.6:8545",
+    "ws": "213.136.77.6:8546",
+    "latency": 567,
+    "blockHeight": 21794466,
+    "performanceScore": 0.37810218978102195
+  },
+  {
+    "http": "57.129.52.134:8545",
+    "ws": "57.129.52.134:8546",
+    "latency": 567,
+    "blockHeight": 21794466,
+    "performanceScore": 0.37810218978102195
+  },
+  {
+    "http": "213.136.74.80:8545",
+    "latency": 567,
+    "blockHeight": 21794466,
+    "performanceScore": 0.37810218978102195
+  },
+  {
+    "http": "141.95.84.42:8545",
+    "ws": "141.95.84.42:8546",
+    "latency": 570,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3763990267639903
+  },
+  {
+    "http": "141.95.34.25:8545",
+    "ws": "141.95.34.25:8546",
+    "latency": 571,
+    "blockHeight": 21794466,
+    "performanceScore": 0.37583130575831314
+  },
+  {
+    "http": "57.129.49.110:8545",
+    "ws": "57.129.49.110:8546",
+    "latency": 576,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3729927007299271
+  },
+  {
+    "http": "185.139.230.143:8545",
+    "ws": "185.139.230.143:8546",
+    "latency": 579,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3712895377128954
+  },
+  {
+    "http": "135.181.62.99:8545",
+    "latency": 588,
+    "blockHeight": 21794466,
+    "performanceScore": 0.36618004866180054
+  },
+  {
+    "http": "95.217.56.21:8545",
+    "ws": "95.217.56.21:8546",
+    "latency": 589,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3656123276561233
+  },
+  {
+    "http": "65.21.123.54:8545",
+    "latency": 589,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3656123276561233
+  },
+  {
+    "http": "65.108.79.174:8545",
+    "latency": 590,
+    "blockHeight": 21794466,
+    "performanceScore": 0.365044606650446
+  },
+  {
+    "http": "90.84.228.76:8545",
+    "ws": "90.84.228.76:8546",
+    "latency": 593,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3633414436334145
+  },
+  {
+    "http": "51.83.237.108:8545",
+    "ws": "51.83.237.108:8546",
+    "latency": 594,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3627737226277372
+  },
+  {
+    "http": "139.60.161.72:8545",
+    "latency": 597,
+    "blockHeight": 21794466,
+    "performanceScore": 0.36107055961070555
+  },
+  {
+    "http": "213.133.103.79:8545",
+    "ws": "213.133.103.79:8546",
+    "latency": 607,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35539334955393354
+  },
+  {
+    "http": "176.9.3.183:8545",
+    "ws": "176.9.3.183:8546",
+    "latency": 609,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35425790754257913
+  },
+  {
+    "http": "46.4.78.197:8545",
+    "latency": 610,
+    "blockHeight": 21794466,
+    "performanceScore": 0.353690186536902
+  },
+  {
+    "http": "46.4.28.38:8545",
+    "ws": "46.4.28.38:8546",
+    "latency": 611,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3531224655312246
+  },
+  {
+    "http": "168.119.70.241:8545",
+    "ws": "168.119.70.241:8546",
+    "latency": 612,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35255474452554747
+  },
+  {
+    "http": "142.132.208.112:8545",
+    "latency": 612,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35255474452554747
+  },
+  {
+    "http": "18.153.98.212:8545",
+    "ws": "18.153.98.212:8546",
+    "latency": 612,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35255474452554747
+  },
+  {
+    "http": "157.90.32.165:8545",
+    "latency": 613,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3519870235198703
+  },
+  {
+    "http": "5.9.68.211:8545",
+    "latency": 614,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35141930251419307
+  },
+  {
+    "http": "88.99.195.61:8545",
+    "latency": 614,
+    "blockHeight": 21794466,
+    "performanceScore": 0.35141930251419307
+  },
+  {
+    "http": "46.4.57.101:8545",
+    "ws": "46.4.57.101:8546",
+    "latency": 615,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3508515815085158
+  },
+  {
+    "http": "85.10.192.168:8545",
+    "latency": 615,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3508515815085158
+  },
+  {
+    "http": "136.243.37.119:8545",
+    "ws": "136.243.37.119:8546",
+    "latency": 619,
+    "blockHeight": 21794466,
+    "performanceScore": 0.348580697485807
+  },
+  {
+    "http": "200.25.62.28:8545",
+    "ws": "200.25.62.28:8546",
+    "latency": 624,
+    "blockHeight": 21794466,
+    "performanceScore": 0.34574209245742094
+  },
+  {
+    "http": "80.93.179.251:8545",
+    "ws": "80.93.179.251:8546",
+    "latency": 626,
+    "blockHeight": 21794466,
+    "performanceScore": 0.34460665044606653
+  },
+  {
+    "http": "65.108.131.152:8545",
+    "latency": 640,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3366585563665856
+  },
+  {
+    "http": "37.27.139.207:8545",
+    "ws": "37.27.139.207:8546",
+    "latency": 640,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3366585563665856
+  },
+  {
+    "http": "65.108.41.248:8545",
+    "latency": 641,
+    "blockHeight": 21794466,
+    "performanceScore": 0.33609083536090845
+  },
+  {
+    "http": "95.217.148.150:8545",
+    "ws": "95.217.148.150:8546",
+    "latency": 641,
+    "blockHeight": 21794466,
+    "performanceScore": 0.33609083536090845
+  },
+  {
+    "http": "37.27.133.114:8545",
+    "ws": "37.27.133.114:8546",
+    "latency": 641,
+    "blockHeight": 21794466,
+    "performanceScore": 0.33609083536090845
+  },
+  {
+    "http": "65.109.29.168:8545",
+    "latency": 645,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3338199513381995
+  },
+  {
+    "http": "135.181.183.121:8545",
+    "latency": 646,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3332522303325224
+  },
+  {
+    "http": "65.109.88.35:8545",
+    "latency": 646,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3332522303325224
+  },
+  {
+    "http": "37.27.130.154:8545",
+    "latency": 646,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3332522303325224
+  },
+  {
+    "http": "37.27.51.52:8545",
+    "ws": "37.27.51.52:8546",
+    "latency": 646,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3332522303325224
+  },
+  {
+    "http": "213.250.128.229:8545",
+    "latency": 664,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3230332522303325
+  },
+  {
+    "http": "52.59.189.211:8545",
+    "ws": "52.59.189.211:8546",
+    "latency": 687,
+    "blockHeight": 21794466,
+    "performanceScore": 0.3099756690997567
+  },
+  {
+    "http": "35.198.94.81:8545",
+    "latency": 966,
+    "blockHeight": 21794466,
+    "performanceScore": 0.1515815085158152
+  },
+  {
+    "http": "104.197.64.158:8545",
+    "latency": 1233,
+    "blockHeight": 21794464,
+    "performanceScore": 0.10000000000000009
+  }
+]

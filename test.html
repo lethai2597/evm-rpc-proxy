@@ -374,7 +374,7 @@
             
             try {
                 nodeInfoResponse.innerText = 'Đang lấy thông tin...';
-                const response = await fetch(`${proxyUrl}/action/solana_admin`);
+                const response = await fetch(`${proxyUrl}/action/evm_admin`);
                 const data = await response.text();
                 
                 try {

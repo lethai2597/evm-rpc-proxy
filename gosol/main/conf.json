@@ -5,9 +5,9 @@
   "FORCE_START": true,
   "DEBUG": false,
   "VERBOSE": false,
-  "SOL_NODES": [
+  "EVM_NODES": [
     {
-      "url": "http://127.0.0.1:7899",
+      "url": "http://127.0.0.1:8545",
       "public": false,
       "score_modifier": -500000,
       "throttle": "r,50000,10",

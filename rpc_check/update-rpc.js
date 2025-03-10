@@ -1,7 +1,6 @@
 import * as fs from "fs";
 
 const conf = JSON.parse(fs.readFileSync("../gosol/main/conf.json"));
-const extNodeLocalCache = JSON.parse(fs.readFileSync("extnode.json"));
 
 const timeoutWhenCheckRpc = 3000;
 
@@ -47,7 +46,7 @@ async function checkRunningRpcAndUpdateProxy() {
   });
 
   const remoableNodes = disabledNodes.filter((nodeDisabled) => {
-    const included = conf.SOL_NODES.filter((nodeWhitelis) => {
+    const included = conf.EVM_NODES.filter((nodeWhitelis) => {
       return nodeWhitelis.url.trim() === nodeDisabled.Endpoint.trim();
     });
     return included.length === 0;
@@ -64,7 +63,7 @@ const proxyUrl = "http://127.0.0.1:7778";
 
 // return list nodes: {ID: 1, Endpoint: ""}
 async function getNodesFromProxy() {
-  const response = await fetch(proxyUrl + "?action=solana_admin");
+  const response = await fetch(proxyUrl + "?action=evm_admin");
   const responseJson = await response.json();
   return Object.values(responseJson);
 }
@@ -85,7 +84,7 @@ async function addRpcsToProxy(nodes) {
       });
       nodeInfo = nodeInfo.replace(/;/g, encodeURIComponent(";"));
 
-      return callApi(`${proxyUrl}?action=solana_admin_add&node=${nodeInfo}`);
+      return callApi(`${proxyUrl}?action=evm_admin_add&node=${nodeInfo}`);
     })
   );
   console.log("addNodesToProxy: ", result.length);
@@ -98,7 +97,7 @@ async function removeNodesFromProxy(nodes) {
 
   const result = await Promise.allSettled(
     nodes.map((node) =>
-      callApi(`${proxyUrl}?action=solana_admin_remove&id=${node["ID"]}`)
+      callApi(`${proxyUrl}?action=evm_admin_remove&id=${node["ID"]}`)
     )
   );
   console.log("removeNodesFromProxy: ", result.length);
@@ -125,13 +124,27 @@ async function checkRunningRpc() {
 async function checkRunningRpcFromPublicNodes() {
   // fetch rpc with fetch
   const response = await callRpc(
-    "https://api.mainnet-beta.solana.com",
-    "getClusterNodes",
+    "https://ethereum-rpc.publicnode.com",
+    "admin_peers",
     []
   );
   //   console.log("response: ", response);
 
   if (!response.result) {
+    // Nếu không thể lấy thông tin từ public node, đọc từ file cấu hình
+    try {
+      const adminNodesData = JSON.parse(fs.readFileSync("admin-nodes-eth.json", "utf8"));
+      if (adminNodesData && adminNodesData.nodes) {
+        // Đọc các node từ admin-nodes-eth.json
+        const nodes = adminNodesData.nodes.map(node => ({ rpc: node }));
+        const rpcs = filterRpcExistIp(nodes);
+        const runningRpcs = await checkRpcsRunning(rpcs);
+        const privateRpcs = await checkPrivateRpc(nodes);
+        return [...runningRpcs, ...privateRpcs];
+      }
+    } catch (err) {
+      console.error("Error reading admin-nodes-eth.json:", err);
+    }
     throw new Error("No result found");
   }
 
@@ -151,9 +164,9 @@ async function checkRunningRpcFromExtNodes() {
   // console.log("response: ", response);
 
   if (!response) {
-    // get default from cache
-    response = extNodeLocalCache;
-    console.log("[checkRunningRpcFromExtNodes] response not exist");
+    // Nếu không lấy được từ API, trả về mảng rỗng thay vì sử dụng cache
+    console.log("[checkRunningRpcFromExtNodes] Không thể kết nối đến API extrnode.com");
+    return [];
   }
 
   const fieldFilter = "endpoint";
@@ -171,15 +184,11 @@ async function checkRpcsRunning(rpcs, ipField = "rpc") {
     let rpcUrl = rpc[ipField];
     rpcUrl = rpcUrl.startsWith("http") ? rpcUrl : "http://" + rpcUrl;
 
+    // Thay thế phương thức Solana 'getSignaturesForAddress' bằng phương thức EVM 'eth_blockNumber'
     return fetchWithTimeout(
       rpcUrl,
-      "getSignaturesForAddress",
-      [
-        "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",
-        {
-          limit: 1,
-        },
-      ],
+      "eth_blockNumber",
+      [],
       rpcUrl
     );
   });
@@ -292,31 +301,47 @@ async function checkPrivateRpc(rpcs) {
       ips: [],
     };
 
+    // Thay đổi logic tìm kiếm private nodes từ Solana sang EVM
     const validRpcList = rpcs
       .filter((rpc) => {
-        // check if rpc is valid
-        return !rpc["rpc"] && rpc["gossip"];
+        // check if rpc is valid for EVM nodes
+        return rpc["address"] || rpc["remoteAddress"] || rpc["enode"];
       })
       .map((rpc) => {
-        const [ip, port] = rpc["gossip"].split(":");
-        return [`http://${ip}:8899`, `http://${ip}:80`, `http://${ip}:21611`];
+        let ip;
+        if (rpc["address"]) {
+          ip = rpc["address"].split(":")[0];
+        } else if (rpc["remoteAddress"]) {
+          ip = rpc["remoteAddress"].split(":")[0];
+        } else if (rpc["enode"]) {
+          // Extract IP from enode URL if available
+          const match = rpc["enode"].match(/@([^:]+):/);
+          ip = match ? match[1] : null;
+        }
+
+        if (ip) {
+          // Common EVM RPC ports
+          return [`http://${ip}:8545`, `http://${ip}:30303`];
+        }
+        return [];
       });
 
     const handle = async (rpcUrl) => {
       try {
+        // Thay thế Solana method bằng EVM method
         const response = await fetchWithTimeout(
           rpcUrl,
-          "getSignaturesForAddress",
-          [
-            "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",
-            {
-              limit: 1,
-            },
-          ],
+          "eth_blockNumber",
+          [],
           rpcUrl
         );
-        const hasTx = response.result?.length || 0;
-        if (hasTx) {
+        
+        // Kiểm tra xem node có trả về block number hợp lệ hay không
+        const hasValidBlockNumber = response.result && 
+                                  typeof response.result === 'string' && 
+                                  response.result.startsWith('0x');
+                                  
+        if (hasValidBlockNumber) {
           const ip = getRpcIp(rpcUrl);
           if (result.ips.includes(ip)) return false;
           result.ips.push(ip);

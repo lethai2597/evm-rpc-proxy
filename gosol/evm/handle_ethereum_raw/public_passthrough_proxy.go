@@ -1,9 +1,10 @@
-package handle_solana_raw
+package handle_ethereum_raw
 
 import (
 	"encoding/json"
-	"gosol/solana_proxy"
-	"gosol/solana_proxy/client"
+	"fmt"
+	"gosol/evm_proxy"
+	"gosol/evm_proxy/client"
 	"net/http"
 	"strings"
 
@@ -45,28 +46,66 @@ func init() {
 			return false
 		}
 
-		sch := solana_proxy.MakeScheduler()
+		// Xác định phương thức từ JSON body
+		var method string
+		var jsonData interface{}
+		if err := json.Unmarshal(post, &jsonData); err == nil {
+			switch jsonData.(type) {
+			case map[string]interface{}:
+				if m, ok := jsonData.(map[string]interface{})["method"].(string); ok {
+					method = m
+				}
+			case []interface{}:
+				// Batch request - lấy phương thức đầu tiên để hiển thị
+				batch := jsonData.([]interface{})
+				if len(batch) > 0 {
+					if req, ok := batch[0].(map[string]interface{}); ok {
+						if m, ok := req["method"].(string); ok {
+							method = m + " (batch)"
+						}
+					}
+				}
+			}
+		}
+
+		sch := evm_proxy.MakeScheduler()
 		clients := sch.GetAllSorted(false, false)
 		if len(clients) == 0 {
+			fmt.Println("Debug - No clients found")
 			w.Write(_passthrough_err("Can't find any client"))
 			return true
 		}
 
+		fmt.Printf("=== EVM RPC Direct Passthrough ===\n")
+		fmt.Printf("Method: %s\n", method)
+		fmt.Printf("Available Clients: %d\n", len(clients))
+		if len(clients) > 0 {
+			fmt.Printf("First Client: %s\n", clients[0].GetEndpoint())
+		}
+		fmt.Printf("================================\n")
+
 		// loop over workers, if we have "throttled" returned it'll try other workers
 		errors := 0
-		for _, cl := range clients {
+		for i, cl := range clients {
+			fmt.Printf("Trying client #%d: %s\n", i+1, cl.GetEndpoint())
 			resp_type, resp_data := cl.RequestForward(post)
 			if resp_type == client.R_OK {
+				fmt.Printf("Success with client: %s\n", cl.GetEndpoint())
 				w.Write(resp_data)
 				return true
 			}
 
 			if resp_type == client.R_ERROR {
+				fmt.Printf("Error with client: %s\n", cl.GetEndpoint())
 				errors++
 				if errors >= 2 {
 					w.Write(_passthrough_err("Request failed (e)"))
 					return true
 				}
+			}
+
+			if resp_type == client.R_THROTTLED {
+				fmt.Printf("Client throttled: %s\n", cl.GetEndpoint())
 			}
 		}
 
