@@ -7,17 +7,17 @@
   "VERBOSE": false,
   "EVM_NODES": [
     {
-      "url": "http://127.0.0.1:8545",
-      "public": false,
+      "url": "https://node-eth.pinksale.com",
+      "public": true,
       "score_modifier": -500000,
       "throttle": "r,50000,10",
-      "probe_time": 10
+      "probe_time": 60
     }
   ],
   "CUSTOM_HEALTH_CHECKER": {
-    "run_every": 1,
+    "run_every": 60,
     "max_block_lag": 10,
-    "max_data_age_ms": 1000
+    "max_data_age_ms": 60000
   },
   "RUN_SERVICES": "*"
 }
