@@ -59,7 +59,7 @@ async function checkRunningRpcAndUpdateProxy() {
   await removeNodesFromProxy(remoableNodes);
 }
 
-const proxyUrl = "http://127.0.0.1:7778";
+const proxyUrl = "http://127.0.0.1:8545";
 
 // return list nodes: {ID: 1, Endpoint: ""}
 async function getNodesFromProxy() {
