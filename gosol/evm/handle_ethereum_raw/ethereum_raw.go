@@ -1,32 +1,33 @@
-package handle_solana_raw
+package handle_ethereum_raw
 
 import (
 	"bytes"
 	"encoding/json"
-	"gosol/solana_proxy"
-	"gosol/solana_proxy/client"
+	"fmt"
+	"gosol/evm_proxy"
+	"gosol/evm_proxy/client"
 
 	"github.com/slawomir-pryczek/HSServer/handler_socket2"
 )
 
-type Handle_solana_raw struct {
+type Handle_ethereum_raw struct {
 }
 
-func (this *Handle_solana_raw) Initialize() {
+func (this *Handle_ethereum_raw) Initialize() {
 }
 
-func (this *Handle_solana_raw) Info() string {
-	return "This plugin will allow to issue raw solana requests"
+func (this *Handle_ethereum_raw) Info() string {
+	return "This plugin will allow to issue raw ethereum requests"
 }
 
-func (this *Handle_solana_raw) GetActions() []string {
-	return []string{"solanaRaw"}
+func (this *Handle_ethereum_raw) GetActions() []string {
+	return []string{"ethereumRaw"}
 }
 
-func (this *Handle_solana_raw) HandleAction(action string, data *handler_socket2.HSParams) string {
+func (this *Handle_ethereum_raw) HandleAction(action string, data *handler_socket2.HSParams) string {
 
 	// get first client!
-	sch := solana_proxy.MakeScheduler()
+	sch := evm_proxy.MakeScheduler()
 	if data.GetParamI("public", 0) == 1 {
 		sch.ForcePublic(true)
 	}
@@ -37,6 +38,13 @@ func (this *Handle_solana_raw) HandleAction(action string, data *handler_socket2
 	if cl == nil {
 		return `{"error":"can't find appropriate client"}`
 	}
+
+	// Hiển thị thông tin về node đang được sử dụng
+	fmt.Printf("=== EVM RPC Request ===\n")
+	fmt.Printf("Action: %s\n", action)
+	fmt.Printf("Forwarding to RPC: %s\n", cl.GetEndpoint())
+	fmt.Printf("Method: %s\n", data.GetParam("method", ""))
+	fmt.Printf("=====================\n")
 
 	// run the request
 	is_req_ok := func(data []byte) bool {
@@ -55,7 +63,7 @@ func (this *Handle_solana_raw) HandleAction(action string, data *handler_socket2
 	method := data.GetParam("method", "")
 	params := data.GetParam("params", "")
 	if len(method) == 0 {
-		return `{"error":"provide transaction &method=getConfirmedBlock and optionally &amp;params=[94435095] add &public=1 if you want to force the request to be run on public node"}`
+		return `{"error":"provide transaction &method=eth_blockNumber or &method=eth_getBalance and optionally &params=[\"0x...\"] add &public=1 if you want to force the request to be run on public node"}`
 	}
 
 	// Try first client (private by default)
@@ -68,6 +76,10 @@ func (this *Handle_solana_raw) HandleAction(action string, data *handler_socket2
 	// Try public client, if private failed
 	cl = sch.GetPublicClient()
 	if cl != nil {
+		fmt.Printf("=== EVM RPC Retry ===\n")
+		fmt.Printf("Method: %s\n", method)
+		fmt.Printf("Forwarding to public RPC: %s\n", cl.GetEndpoint())
+		fmt.Printf("=====================\n")
 		ret, result = cl.RequestBasic(method, params)
 	}
 	if ret != nil && result == client.R_OK && is_req_ok(ret) {
@@ -81,6 +93,10 @@ func (this *Handle_solana_raw) HandleAction(action string, data *handler_socket2
 		if cl == nil {
 			break
 		}
+		fmt.Printf("=== EVM RPC Retry (throttled) ===\n")
+		fmt.Printf("Method: %s\n", method)
+		fmt.Printf("Forwarding to RPC: %s\n", cl.GetEndpoint())
+		fmt.Printf("=====================\n")
 		ret, result = cl.RequestBasic(method, params)
 	}
 	if ret != nil && result == client.R_OK && is_req_ok(ret) {

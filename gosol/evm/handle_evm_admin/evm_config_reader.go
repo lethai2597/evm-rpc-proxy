@@ -1,18 +1,18 @@
-package handle_solana_admin
+package handle_evm_admin
 
 import (
 	"encoding/json"
 	"fmt"
-	"gosol/solana_proxy"
-	"gosol/solana_proxy/client"
-	"gosol/solana_proxy/client/throttle"
+	"gosol/evm_proxy"
+	"gosol/evm_proxy/client"
+	"gosol/evm_proxy/client/throttle"
 	"math"
 	"net/http"
 	"reflect"
 	"strings"
 )
 
-func NodeRegister(endpoint string, header http.Header, public bool, probe_time int, throttle []*throttle.Throttle) *client.SOLClient {
+func NodeRegister(endpoint string, header http.Header, public bool, probe_time int, throttle []*throttle.Throttle) *client.EVMClient {
 	if len(endpoint) == 0 {
 		return nil
 	}
@@ -31,7 +31,7 @@ func NodeRegister(endpoint string, header http.Header, public bool, probe_time i
 	}
 
 	cl := client.MakeClient(endpoint, header, public, probe_time, max_conn, throttle)
-	solana_proxy.ClientManage(cl, math.MaxUint64)
+	evm_proxy.ClientManage(cl, math.MaxUint64)
 	return cl
 }
 
@@ -47,7 +47,7 @@ func _get_cfg_data[T any](node map[string]interface{}, attr string, def T) T {
 	return def
 }
 
-func NodeRegisterFromConfig(node map[string]interface{}) *client.SOLClient {
+func NodeRegisterFromConfig(node map[string]interface{}) *client.EVMClient {
 
 	url := _get_cfg_data(node, "url", "")
 	public := _get_cfg_data(node, "public", false)

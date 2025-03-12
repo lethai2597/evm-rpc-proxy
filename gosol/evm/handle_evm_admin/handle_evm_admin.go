@@ -1,30 +1,30 @@
-package handle_solana_admin
+package handle_evm_admin
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"gosol/solana_proxy"
+	"gosol/evm_proxy"
 	"math"
 
 	"github.com/slawomir-pryczek/HSServer/handler_socket2"
 )
 
-type Handle_solana_admin struct {
+type Handle_evm_admin struct {
 }
 
-func (this *Handle_solana_admin) Initialize() {
+func (this *Handle_evm_admin) Initialize() {
 }
 
-func (this *Handle_solana_admin) Info() string {
-	return "This plugin will allow to do proxy administration"
+func (this *Handle_evm_admin) Info() string {
+	return "This plugin will allow to do EVM proxy administration"
 }
 
-func (this *Handle_solana_admin) GetActions() []string {
-	return []string{"solana_admin", "solana_admin_remove", "solana_admin_add"}
+func (this *Handle_evm_admin) GetActions() []string {
+	return []string{"evm_admin", "evm_admin_remove", "evm_admin_add"}
 }
 
-func (this *Handle_solana_admin) HandleAction(action string, data *handler_socket2.HSParams) string {
+func (this *Handle_evm_admin) HandleAction(action string, data *handler_socket2.HSParams) string {
 
 	err := func(s string) string {
 		ret := make(map[string]interface{})
@@ -40,8 +40,8 @@ func (this *Handle_solana_admin) HandleAction(action string, data *handler_socke
 		return string(tmp)
 	}
 
-	if action == "solana_admin" {
-		sch := solana_proxy.MakeScheduler()
+	if action == "evm_admin" {
+		sch := evm_proxy.MakeScheduler()
 		clients := sch.GetAll(true, true)
 		clients = append(clients, sch.GetAll(false, true)...)
 
@@ -56,20 +56,20 @@ func (this *Handle_solana_admin) HandleAction(action string, data *handler_socke
 		return ""
 	}
 
-	if action == "solana_admin_remove" {
+	if action == "evm_admin_remove" {
 		id := data.GetParamI("id", -1)
 		if id < 0 {
 			return "Please provide client's &id="
 		}
 
-		if solana_proxy.ClientRemove(uint64(id)) {
+		if evm_proxy.ClientRemove(uint64(id)) {
 			return ok(fmt.Sprintf("Removed client id: %d", id))
 		} else {
 			return err("Can't find client, nothing done")
 		}
 	}
 
-	if action == "solana_admin_add" {
+	if action == "evm_admin_add" {
 
 		id := data.GetParamI("remove_id", -1)
 		node_id := uint64(0)
@@ -94,7 +94,7 @@ func (this *Handle_solana_admin) HandleAction(action string, data *handler_socke
 		if new_node == nil {
 			return err("Error creating new node, something went wrong. Please check URL and config")
 		}
-		solana_proxy.ClientRemove(node_id)
+		evm_proxy.ClientRemove(node_id)
 		return ok(new_node.GetInfo())
 	}
 

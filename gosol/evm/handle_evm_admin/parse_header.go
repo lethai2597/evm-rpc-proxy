@@ -1,4 +1,4 @@
-package handle_solana_admin
+package handle_evm_admin
 
 import (
 	"net/http"
