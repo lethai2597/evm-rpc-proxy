@@ -44,12 +44,12 @@ There are 2 node types defined
 - Private - fast local node (usually with partial chain data)
 If you don't need to distinct and you want to use the proxy just to route your requests to different providers for loadbalancing / failover - you should setup all nodes as a private type.
 
-This should be default, simplest mode of operation. You'll setup all your nodes as private nodes, and then you can connect to Solana proxy via any api just like you'd do to a "normal" Solana node, using port 7778.
+This should be default, simplest mode of operation. You'll setup all your nodes as private nodes, and then you can connect to Solana proxy via any api just like you'd do to a "normal" Solana node, using port 8545.
 
 ## Configuration
 ```json
 {
-"BIND_TO": "h127.0.0.1:7778,h8.8.8.8:7778,",
+"BIND_TO": "h127.0.0.1:8545,h8.8.8.8:8545,",
 
 "FORCE_START":true,
 "DEBUG":false,
@@ -69,13 +69,13 @@ Throttle can be configured in following way:
 - d[ata received],time_in_seconds,limit in bytes
 
 ## Accessing proxy information
-http://127.0.0.1:7778/?action=server-status
+http://127.0.0.1:8545/?action=server-status
 You can access server-status page by using server-status action. There's also PHP script available to password-protect the status page so it can be accessible from outside.
 
-http://127.0.0.1:7778/?action=getSolanaInfo
+http://127.0.0.1:8545/?action=getSolanaInfo
 This url will return throttling status for public and private nodes.
 
-http://127.0.0.1:7778/?action=getFirstAvailableBlock
+http://127.0.0.1:8545/?action=getFirstAvailableBlock
 Gets first available block for public and private nodes.
 
 ## Throttling
@@ -110,7 +110,7 @@ Proxy hỗ trợ hai cách gọi RPC:
 Sử dụng phương thức POST với body JSON theo định dạng JSON-RPC 2.0:
 
 ```bash
-curl --location 'http://127.0.0.1:7778/action/ethereumRaw' \
+curl --location 'http://127.0.0.1:8545/action/ethereumRaw' \
 --header 'Content-Type: application/json' \
 --data '{
   "jsonrpc": "2.0",
