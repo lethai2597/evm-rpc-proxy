@@ -3,7 +3,7 @@ It's not required to install, you can run directly from console and the proxy wi
 
 ## Installing as a service
 - Create a new user, it can be called solproxy
-- Copy the content of gosol/main into /home/solproxy (it needs to contain compiled sources) or just download a package from this website and put everything under /home/solproxy
+- Copy the content of goevm/main into /home/solproxy (it needs to contain compiled sources) or just download a package from this website and put everything under /home/solproxy
 - Create a directory /home/solproxy/log owned by solproxy user
 - Run sudo vi /etc/systemd/system/solproxy.service and place the following content into solproxy.service file
 

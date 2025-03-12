@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-const conf = JSON.parse(fs.readFileSync("../gosol/main/conf.json"));
+const conf = JSON.parse(fs.readFileSync("../goevm/main/conf.json"));
 
 const timeoutWhenCheckRpc = 3000;
 
@@ -131,11 +131,11 @@ async function checkRunningRpcFromPublicNodes() {
   //   console.log("response: ", response);
 
   if (!response.result) {
-    // Nếu không thể lấy thông tin từ public node, đọc từ file cấu hình
+    // If cannot get information from public node, read from configuration file
     try {
       const adminNodesData = JSON.parse(fs.readFileSync("admin-nodes-eth.json", "utf8"));
       if (adminNodesData && adminNodesData.nodes) {
-        // Đọc các node từ admin-nodes-eth.json
+        // Read nodes from admin-nodes-eth.json
         const nodes = adminNodesData.nodes.map(node => ({ rpc: node }));
         const rpcs = filterRpcExistIp(nodes);
         const runningRpcs = await checkRpcsRunning(rpcs);
@@ -164,8 +164,8 @@ async function checkRunningRpcFromExtNodes() {
   // console.log("response: ", response);
 
   if (!response) {
-    // Nếu không lấy được từ API, trả về mảng rỗng thay vì sử dụng cache
-    console.log("[checkRunningRpcFromExtNodes] Không thể kết nối đến API extrnode.com");
+    // If cannot get from API, return empty array instead of using cache
+    console.log("[checkRunningRpcFromExtNodes] Cannot connect to extrnode.com API");
     return [];
   }
 
@@ -301,7 +301,7 @@ async function checkPrivateRpc(rpcs) {
       ips: [],
     };
 
-    // Thay đổi logic tìm kiếm private nodes từ Solana sang EVM
+    // Change logic for searching private nodes from Solana to EVM
     const validRpcList = rpcs
       .filter((rpc) => {
         // check if rpc is valid for EVM nodes
@@ -328,20 +328,17 @@ async function checkPrivateRpc(rpcs) {
 
     const handle = async (rpcUrl) => {
       try {
-        // Thay thế Solana method bằng EVM method
-        const response = await fetchWithTimeout(
+        // Replace Solana method with EVM method
+        const response = await callRpc(
           rpcUrl,
           "eth_blockNumber",
-          [],
-          rpcUrl
+          []
         );
+
+        // Check if the node returns a valid block number
+        const responseHex = response?.result;
         
-        // Kiểm tra xem node có trả về block number hợp lệ hay không
-        const hasValidBlockNumber = response.result && 
-                                  typeof response.result === 'string' && 
-                                  response.result.startsWith('0x');
-                                  
-        if (hasValidBlockNumber) {
+        if (responseHex && responseHex.startsWith('0x')) {
           const ip = getRpcIp(rpcUrl);
           if (result.ips.includes(ip)) return false;
           result.ips.push(ip);

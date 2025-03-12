@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiểm Tra Ethereum RPC Proxy</title>
+    <title>Ethereum RPC Proxy Tester</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,7 +14,7 @@
             background-color: #f8f9fa;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
@@ -83,254 +83,577 @@
         .error {
             color: red;
         }
-        .examples {
-            margin-top: 15px;
+        .command-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
         }
-        .example-card {
-            border: 1px solid #e0e0e0;
+        .command-button {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
             border-radius: 5px;
             padding: 15px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
         }
-        .example-card:hover {
-            background-color: #f0f8ff;
+        .command-button:hover {
+            background-color: #e9f0fd;
             transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
-        .example-title {
-            font-weight: bold;
-            margin-bottom: 5px;
+        .command-button h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
             color: #3498db;
         }
-        .example-body {
-            font-family: monospace;
+        .command-button p {
+            margin: 0;
             font-size: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            color: #666;
         }
         .tab-container {
             display: flex;
             gap: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         .tab {
-            padding: 8px 15px;
+            padding: 10px 20px;
             cursor: pointer;
             border: 1px solid #ddd;
             border-radius: 4px 4px 0 0;
             background-color: #f8f9fa;
+            font-weight: bold;
         }
         .tab.active {
             background-color: #3498db;
             color: white;
+            border-color: #3498db;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .chain-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            border: 1px solid #d0e3ff;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 5px;
+            background-color: #e9f0fd;
+            color: #3498db;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Kiểm Tra Ethereum RPC Proxy</h1>
+        <h1>Ethereum RPC Proxy Tester</h1>
         
         <div class="section">
-            <h2>Thông Tin Cấu Hình</h2>
+            <h2>Proxy Configuration</h2>
             <div class="control-panel">
-                <input type="text" id="proxyUrl" placeholder="URL Proxy (ví dụ: http://127.0.0.1:8545)" value="http://127.0.0.1:8545">
-                <button onclick="checkServerStatus()">Kiểm Tra Trạng Thái</button>
+                <input type="text" id="proxyUrl" placeholder="Proxy URL (e.g., http://127.0.0.1:8545)" value="http://127.0.0.1:8545">
+                <button onclick="checkServerStatus()">Check Server Status</button>
             </div>
             <div id="statusResponse" class="response"></div>
         </div>
 
         <div class="section">
-            <h2>Gửi Yêu Cầu Ethereum JSON-RPC</h2>
+            <h2>Quick RPC Commands</h2>
+            <div class="chain-selector">
+                <label for="chainSelect">Select Network: </label>
+                <select id="chainSelect" onchange="updateChainExamples()">
+                    <option value="1">Ethereum Mainnet</option>
+                    <option value="11155111">Sepolia Testnet</option>
+                    <option value="5">Goerli Testnet</option>
+                    <option value="56">BSC Mainnet</option>
+                    <option value="97">BSC Testnet</option>
+                    <option value="137">Polygon Mainnet</option>
+                    <option value="80001">Polygon Mumbai</option>
+                    <option value="42161">Arbitrum One</option>
+                    <option value="10">Optimism</option>
+                    <option value="43114">Avalanche C-Chain</option>
+                </select>
+            </div>
             
             <div class="tab-container">
-                <div class="tab active" onclick="switchTab('predefined')">Các ví dụ mẫu</div>
-                <div class="tab" onclick="switchTab('custom')">Tùy chỉnh</div>
+                <div class="tab active" onclick="switchTab('basic')">Basic Requests</div>
+                <div class="tab" onclick="switchTab('tokens')">Token Operations</div>
+                <div class="tab" onclick="switchTab('defi')">DeFi Interactions</div>
+                <div class="tab" onclick="switchTab('advanced')">Advanced</div>
+                <div class="tab" onclick="switchTab('custom')">Custom Request</div>
             </div>
             
-            <div id="predefinedTab">
-                <div class="examples">
-                    <div class="example-card" onclick="loadExample('blockNumber')">
-                        <div class="example-title">Lấy số block mới nhất</div>
-                        <div class="example-body">method: eth_blockNumber</div>
+            <!-- Basic Requests Tab -->
+            <div id="basicTab" class="tab-content active">
+                <div class="command-grid">
+                    <div class="command-button" onclick="runCommand('getBlockNumber')">
+                        <h3>Latest Block Number</h3>
+                        <p>eth_blockNumber</p>
                     </div>
-                    <div class="example-card" onclick="loadExample('getBalance')">
-                        <div class="example-title">Lấy số dư ETH</div>
-                        <div class="example-body">method: eth_getBalance, params: ["0x...""]</div>
+                    <div class="command-button" onclick="runCommand('getGasPrice')">
+                        <h3>Current Gas Price</h3>
+                        <p>eth_gasPrice</p>
                     </div>
-                    <div class="example-card" onclick="loadExample('getTransactionCount')">
-                        <div class="example-title">Lấy số giao dịch đã gửi</div>
-                        <div class="example-body">method: eth_getTransactionCount</div>
+                    <div class="command-button" onclick="runCommand('getBalance')">
+                        <h3>ETH Balance</h3>
+                        <p>eth_getBalance</p>
+                        <span class="badge">WETH</span>
                     </div>
-                    <div class="example-card" onclick="loadExample('getCode')">
-                        <div class="example-title">Lấy bytecode của smart contract</div>
-                        <div class="example-body">method: eth_getCode</div>
+                    <div class="command-button" onclick="runCommand('getBlockByNumber')">
+                        <h3>Latest Block Data</h3>
+                        <p>eth_getBlockByNumber</p>
                     </div>
-                    <div class="example-card" onclick="loadExample('call')">
-                        <div class="example-title">Gọi hàm trên smart contract</div>
-                        <div class="example-body">method: eth_call</div>
+                    <div class="command-button" onclick="runCommand('getTransactionCount')">
+                        <h3>Account Nonce</h3>
+                        <p>eth_getTransactionCount</p>
+                        <span class="badge">WETH</span>
                     </div>
-                    <div class="example-card" onclick="loadExample('getLogs')">
-                        <div class="example-title">Lấy logs từ smart contract</div>
-                        <div class="example-body">method: eth_getLogs</div>
+                    <div class="command-button" onclick="runCommand('netVersion')">
+                        <h3>Chain ID</h3>
+                        <p>net_version</p>
                     </div>
                 </div>
             </div>
             
-            <div id="customTab" style="display:none;">
+            <!-- Token Operations Tab -->
+            <div id="tokensTab" class="tab-content">
+                <div class="command-grid">
+                    <div class="command-button" onclick="runCommand('tokenName')">
+                        <h3>Token Name</h3>
+                        <p>ERC20 name()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('tokenSymbol')">
+                        <h3>Token Symbol</h3>
+                        <p>ERC20 symbol()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('tokenDecimals')">
+                        <h3>Token Decimals</h3>
+                        <p>ERC20 decimals()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('tokenTotalSupply')">
+                        <h3>Total Supply</h3>
+                        <p>ERC20 totalSupply()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('tokenBalanceOf')">
+                        <h3>Token Balance</h3>
+                        <p>ERC20 balanceOf()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('tokenAllowance')">
+                        <h3>Check Allowance</h3>
+                        <p>ERC20 allowance()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DeFi Interactions Tab -->
+            <div id="defiTab" class="tab-content">
+                <div class="command-grid">
+                    <div class="command-button" onclick="runCommand('uniswapGetReserves')">
+                        <h3>Uniswap V2 Reserves</h3>
+                        <p>getReserves()</p>
+                        <span class="badge">ETH/USDC</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('uniswapGetAmountOut')">
+                        <h3>Quote Swap Amount</h3>
+                        <p>getAmountOut()</p>
+                        <span class="badge">ETH/USDC</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('aaveGetReserveData')">
+                        <h3>Aave Reserve Data</h3>
+                        <p>getReserveData()</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('compoundSupplyRate')">
+                        <h3>Compound Supply Rate</h3>
+                        <p>supplyRatePerBlock()</p>
+                        <span class="badge">cETH</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Advanced Tab -->
+            <div id="advancedTab" class="tab-content">
+                <div class="command-grid">
+                    <div class="command-button" onclick="runCommand('getCode')">
+                        <h3>Contract Bytecode</h3>
+                        <p>eth_getCode</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('getStorageAt')">
+                        <h3>Storage Slot Data</h3>
+                        <p>eth_getStorageAt</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('getLogs')">
+                        <h3>Contract Events</h3>
+                        <p>eth_getLogs</p>
+                        <span class="badge">WETH</span>
+                    </div>
+                    <div class="command-button" onclick="runCommand('estimateGas')">
+                        <h3>Estimate Gas</h3>
+                        <p>eth_estimateGas</p>
+                    </div>
+                    <div class="command-button" onclick="runCommand('traceTransaction')">
+                        <h3>Trace Transaction</h3>
+                        <p>debug_traceTransaction</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Custom Request Tab -->
+            <div id="customTab" class="tab-content">
                 <div class="control-panel">
-                    <input type="text" id="customMethod" placeholder="Tên phương thức (ví dụ: eth_blockNumber)">
-                    <input type="text" id="customParams" placeholder="Các tham số JSON (ví dụ: [\"0x...\", \"latest\"])">
+                    <input type="text" id="customMethod" placeholder="Method name (e.g., eth_blockNumber)">
+                </div>
+                <div class="control-panel">
+                    <input type="text" id="customParams" placeholder="Parameters as JSON array (e.g., [\"0x123...\", \"latest\"])">
+                </div>
+                <div class="control-panel">
+                    <button onclick="sendCustomRequest()">Send Custom Request</button>
                 </div>
             </div>
             
-            <div class="control-panel">
-                <button onclick="sendRequest()">Gửi Yêu Cầu</button>
-            </div>
-            
-            <h3>Body của Request</h3>
+            <h3>Request Body</h3>
             <div id="requestBody" class="response"></div>
             
-            <h3>Kết Quả</h3>
+            <h3>Response</h3>
             <div id="requestResponse" class="response"></div>
             <div id="requestStatus" class="status"></div>
         </div>
 
         <div class="section">
-            <h2>Thử Nghiệm Trạng Thái Node</h2>
+            <h2>Node Status</h2>
             <div class="control-panel">
-                <button onclick="getNodeInfo()">Lấy Thông Tin Node</button>
+                <button onclick="getNodeInfo()">Get Node Information</button>
             </div>
             <div id="nodeInfoResponse" class="response"></div>
         </div>
     </div>
 
     <script>
-        let currentTab = 'predefined';
-        let exampleData = {
-            blockNumber: {
+        // Chain-specific contract addresses
+        const chainData = {
+            // Ethereum Mainnet
+            "1": {
+                weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                usdc: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                uniswapV2Pair: "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc", // ETH/USDC
+                uniswapV2Router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+                aaveLendingPool: "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",
+                compound: "0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5" // cETH
+            },
+            // Add other chains as needed
+            "56": {
+                weth: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", // WBNB on BSC
+                usdc: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+                uniswapV2Pair: "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE", // BNB/USDC PancakeSwap
+                uniswapV2Router: "0x10ED43C718714eb63d5aA57B78B54704E256024E", // PancakeSwap Router
+                aaveLendingPool: "0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5",
+                compound: "0x8B8689c7f3b6a83b91ca55D752F165AD0b37D87C" // Venus cBNB equiv
+            }
+        };
+        
+        // Initialize with default chain
+        let currentChain = "1";
+        
+        // Setup predefined requests
+        const commands = {
+            // Basic requests
+            getBlockNumber: {
                 method: 'eth_blockNumber',
+                params: []
+            },
+            getGasPrice: {
+                method: 'eth_gasPrice',
                 params: []
             },
             getBalance: {
                 method: 'eth_getBalance',
-                params: ['0x742d35Cc6634C0532925a3b844Bc454e4438f44e', 'latest']
+                params: function() {
+                    return [chainData[currentChain].weth, 'latest'];
+                }
+            },
+            getBlockByNumber: {
+                method: 'eth_getBlockByNumber',
+                params: ['latest', false]
             },
             getTransactionCount: {
                 method: 'eth_getTransactionCount',
-                params: ['0x742d35Cc6634C0532925a3b844Bc454e4438f44e', 'latest']
+                params: function() {
+                    return [chainData[currentChain].weth, 'latest'];
+                }
             },
+            netVersion: {
+                method: 'net_version',
+                params: []
+            },
+            
+            // Token operations
+            tokenName: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].weth,
+                            data: '0x06fdde03' // name()
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            tokenSymbol: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].weth,
+                            data: '0x95d89b41' // symbol()
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            tokenDecimals: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].weth,
+                            data: '0x313ce567' // decimals()
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            tokenTotalSupply: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].weth,
+                            data: '0x18160ddd' // totalSupply()
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            tokenBalanceOf: {
+                method: 'eth_call',
+                params: function() {
+                    // Zero address padded to 32 bytes (for checking balance of zero address as example)
+                    return [
+                        {
+                            to: chainData[currentChain].weth,
+                            data: '0x70a08231000000000000000000000000000000000000000000000000000000000000dead' // balanceOf(0x000000000000000000000000000000000000dead)
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            tokenAllowance: {
+                method: 'eth_call',
+                params: function() {
+                    // Example allowance check: zero address to uniswap router
+                    const uniswapAddress = chainData[currentChain].uniswapV2Router;
+                    return [
+                        {
+                            to: chainData[currentChain].weth,
+                            data: `0xdd62ed3e000000000000000000000000000000000000000000000000000000000000dead000000000000000000000000${uniswapAddress.substring(2)}` // allowance(0x000...dead, uniswapRouter)
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            
+            // DeFi interactions
+            uniswapGetReserves: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].uniswapV2Pair,
+                            data: '0x0902f1ac' // getReserves()
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            uniswapGetAmountOut: {
+                method: 'eth_call',
+                params: function() {
+                    // Example: get amount out for 1 ETH to USDC
+                    const amountIn = '0x0de0b6b3a7640000'; // 1 ETH (10^18)
+                    return [
+                        {
+                            to: chainData[currentChain].uniswapV2Router,
+                            data: `0xd06ca61f${amountIn}0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000${chainData[currentChain].weth.substring(2)}000000000000000000000000${chainData[currentChain].usdc.substring(2)}` // getAmountsOut(1 ETH, [WETH, USDC])
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            aaveGetReserveData: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].aaveLendingPool,
+                            data: `0x35ea6a75000000000000000000000000${chainData[currentChain].weth.substring(2)}` // getReserveData(WETH)
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            compoundSupplyRate: {
+                method: 'eth_call',
+                params: function() {
+                    return [
+                        {
+                            to: chainData[currentChain].compound,
+                            data: '0xae9d70b0' // supplyRatePerBlock()
+                        },
+                        'latest'
+                    ];
+                }
+            },
+            
+            // Advanced operations
             getCode: {
                 method: 'eth_getCode',
-                params: ['0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 'latest'] // WETH contract
+                params: function() {
+                    return [chainData[currentChain].weth, 'latest'];
+                }
             },
-            call: {
-                method: 'eth_call',
-                params: [
-                    {
-                        to: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH contract
-                        data: '0x06fdde03' // name() function selector
-                    },
-                    'latest'
-                ]
+            getStorageAt: {
+                method: 'eth_getStorageAt',
+                params: function() {
+                    return [chainData[currentChain].weth, '0x0', 'latest']; // First storage slot
+                }
             },
             getLogs: {
                 method: 'eth_getLogs',
+                params: function() {
+                    // Get most recent Transfer events from WETH
+                    return [
+                        {
+                            address: chainData[currentChain].weth,
+                            fromBlock: 'latest',
+                            toBlock: 'latest',
+                            topics: ['0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'] // Transfer event signature
+                        }
+                    ];
+                }
+            },
+            estimateGas: {
+                method: 'eth_estimateGas',
                 params: [
                     {
-                        address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH contract
-                        fromBlock: '0xE8E1C0', // Block in hex
-                        toBlock: '0xE8E1C0',
-                        topics: []
+                        to: "0x0000000000000000000000000000000000000000",
+                        value: "0x0",
+                        data: "0x"
                     }
                 ]
+            },
+            traceTransaction: {
+                method: 'debug_traceTransaction',
+                params: ["0x0000000000000000000000000000000000000000000000000000000000000000"] // Placeholder TX hash - would fail
             }
         };
-
+        
+        // Switch between tabs
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
             
-            if (tab === 'predefined') {
-                document.getElementById('predefinedTab').style.display = 'block';
-                document.getElementById('customTab').style.display = 'none';
-            } else {
-                document.getElementById('predefinedTab').style.display = 'none';
-                document.getElementById('customTab').style.display = 'block';
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            
+            switch(tab) {
+                case 'basic':
+                    document.getElementById('basicTab').classList.add('active');
+                    break;
+                case 'tokens':
+                    document.getElementById('tokensTab').classList.add('active');
+                    break;
+                case 'defi':
+                    document.getElementById('defiTab').classList.add('active');
+                    break;
+                case 'advanced':
+                    document.getElementById('advancedTab').classList.add('active');
+                    break;
+                case 'custom':
+                    document.getElementById('customTab').classList.add('active');
+                    break;
             }
-            
-            currentTab = tab;
         }
-
-        function loadExample(example) {
-            let data = exampleData[example];
-            document.getElementById('customMethod').value = data.method;
-            document.getElementById('customParams').value = JSON.stringify(data.params);
-            
-            // Hiển thị body request
-            updateRequestBodyPreview(data.method, data.params);
+        
+        // Update chain-specific examples
+        function updateChainExamples() {
+            currentChain = document.getElementById('chainSelect').value;
+            // Could add logic here to update UI components if needed
         }
-
-        function updateRequestBodyPreview(method, params) {
-            const body = {
-                jsonrpc: '2.0',
-                id: 1,
-                method: method,
-                params: params
-            };
+        
+        // Run a predefined command
+        function runCommand(commandName) {
+            const command = commands[commandName];
+            if (!command) return;
             
-            document.getElementById('requestBody').innerText = JSON.stringify(body, null, 2);
+            let method = command.method;
+            let params = typeof command.params === 'function' ? command.params() : command.params;
+            
+            sendRpcRequest(method, params);
         }
-
-        // Kiểm tra trạng thái máy chủ
-        async function checkServerStatus() {
-            const proxyUrl = document.getElementById('proxyUrl').value;
-            const statusResponse = document.getElementById('statusResponse');
+        
+        // Send a custom request
+        function sendCustomRequest() {
+            const method = document.getElementById('customMethod').value;
+            let params;
             
             try {
-                statusResponse.innerText = 'Đang kiểm tra...';
-                const response = await fetch(`${proxyUrl}/action/server-status`);
-                const text = await response.text();
-                statusResponse.innerText = text;
-            } catch (error) {
-                statusResponse.innerText = `Lỗi: ${error.message}`;
+                params = JSON.parse(document.getElementById('customParams').value || '[]');
+            } catch (e) {
+                document.getElementById('requestStatus').innerText = 'Error: Invalid JSON parameters!';
+                document.getElementById('requestStatus').className = 'status error';
+                return;
             }
+            
+            sendRpcRequest(method, params);
         }
-
-        // Gửi yêu cầu JSON-RPC
-        async function sendRequest() {
+        
+        // Main function to send RPC requests
+        async function sendRpcRequest(method, params) {
             const proxyUrl = document.getElementById('proxyUrl').value;
             const requestResponse = document.getElementById('requestResponse');
             const requestStatus = document.getElementById('requestStatus');
             
-            let method, params;
-            
-            // Lấy method và params dựa trên tab đang chọn
-            method = document.getElementById('customMethod').value;
-            try {
-                params = JSON.parse(document.getElementById('customParams').value || '[]');
-            } catch (e) {
-                requestStatus.innerText = 'Lỗi: Tham số không phải JSON hợp lệ!';
-                requestStatus.className = 'status error';
-                return;
-            }
-            
-            // Cập nhật xem trước body request
+            // Update request body preview
             updateRequestBodyPreview(method, params);
             
             try {
-                requestResponse.innerText = 'Đang gửi yêu cầu...';
+                requestResponse.innerText = 'Sending request...';
                 requestStatus.innerText = '';
                 requestStatus.className = 'status';
                 
-                // Tạo URL cho yêu cầu
+                // Create URL for the request
                 let url = `${proxyUrl}?action=ethereumRaw`;
                 
-                // Chuẩn bị body theo định dạng JSON-RPC 2.0
+                // Prepare body according to JSON-RPC 2.0
                 const requestBody = {
                     jsonrpc: '2.0',
                     id: 1,
@@ -338,7 +661,7 @@
                     params: params
                 };
                 
-                // Sử dụng fetch với phương thức POST và body JSON
+                // Send the request
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -350,50 +673,77 @@
                 const data = await response.text();
                 
                 try {
-                    // Cố gắng định dạng JSON nếu phản hồi là JSON
+                    // Try to format as JSON if possible
                     const jsonData = JSON.parse(data);
                     requestResponse.innerText = JSON.stringify(jsonData, null, 2);
                 } catch {
-                    // Nếu không phải JSON, hiển thị dưới dạng văn bản
+                    // If not JSON, display as text
                     requestResponse.innerText = data;
                 }
                 
-                requestStatus.innerText = 'Yêu cầu thành công!';
+                requestStatus.innerText = 'Request successful!';
                 requestStatus.className = 'status success';
             } catch (error) {
-                requestResponse.innerText = `Lỗi: ${error.message}`;
-                requestStatus.innerText = 'Yêu cầu thất bại!';
+                requestResponse.innerText = `Error: ${error.message}`;
+                requestStatus.innerText = 'Request failed!';
                 requestStatus.className = 'status error';
             }
         }
+        
+        // Update request body preview
+        function updateRequestBodyPreview(method, params) {
+            const body = {
+                jsonrpc: '2.0',
+                id: 1,
+                method: method,
+                params: params
+            };
+            
+            document.getElementById('requestBody').innerText = JSON.stringify(body, null, 2);
+        }
 
-        // Lấy thông tin về các node
+        // Check server status
+        async function checkServerStatus() {
+            const proxyUrl = document.getElementById('proxyUrl').value;
+            const statusResponse = document.getElementById('statusResponse');
+            
+            try {
+                statusResponse.innerText = 'Checking...';
+                const response = await fetch(`${proxyUrl}/action/server-status`);
+                const text = await response.text();
+                statusResponse.innerText = text;
+            } catch (error) {
+                statusResponse.innerText = `Error: ${error.message}`;
+            }
+        }
+
+        // Get node information
         async function getNodeInfo() {
             const proxyUrl = document.getElementById('proxyUrl').value;
             const nodeInfoResponse = document.getElementById('nodeInfoResponse');
             
             try {
-                nodeInfoResponse.innerText = 'Đang lấy thông tin...';
+                nodeInfoResponse.innerText = 'Fetching information...';
                 const response = await fetch(`${proxyUrl}/action/evm_admin`);
                 const data = await response.text();
                 
                 try {
-                    // Cố gắng định dạng JSON nếu phản hồi là JSON
+                    // Try to format as JSON if possible
                     const jsonData = JSON.parse(data);
                     nodeInfoResponse.innerText = JSON.stringify(jsonData, null, 2);
                 } catch {
-                    // Nếu không phải JSON, hiển thị dưới dạng văn bản
+                    // If not JSON, display as text
                     nodeInfoResponse.innerText = data;
                 }
             } catch (error) {
-                nodeInfoResponse.innerText = `Lỗi: ${error.message}`;
+                nodeInfoResponse.innerText = `Error: ${error.message}`;
             }
         }
 
-        // Khởi tạo trang
+        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            // Hiển thị body request mặc định
-            updateRequestBodyPreview(exampleData.blockNumber.method, exampleData.blockNumber.params);
+            // Display default request body
+            updateRequestBodyPreview('eth_blockNumber', []);
         });
     </script>
 </body>

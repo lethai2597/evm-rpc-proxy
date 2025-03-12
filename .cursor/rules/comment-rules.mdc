@@ -1,0 +1,8 @@
+---
+description: Comment rules
+globs: 
+alwaysApply: false
+---
+
+- Comment in English
+- Only comment on handle_solana_info code
