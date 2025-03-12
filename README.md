@@ -32,7 +32,7 @@ What's new in Solproxy 0.2?
 
 ## Building the software
 Run following commands to build for windows / linux. Golang 1.18 required. 
-<pre>cd solproxy/gosol/main
+<pre>cd solproxy/goevm/main
 go build main.go
 </pre>
 
@@ -166,4 +166,4 @@ curl --location 'http://127.0.0.1:8545/action/ethereumRaw' \
 
 ### Cấu hình
 
-Có thể thêm nhiều node RPC bằng cách chỉnh sửa hàm `_read_node_config()` trong `gosol/main/main.go`.
+Có thể thêm nhiều node RPC bằng cách chỉnh sửa hàm `_read_node_config()` trong `goevm/main/main.go`.
