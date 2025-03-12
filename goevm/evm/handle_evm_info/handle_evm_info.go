@@ -3,7 +3,7 @@ package handle_solana_info
 import (
 	"encoding/json"
 	"fmt"
-	"goevm/solana_proxy"
+	"goevm/evm_proxy"
 
 	"github.com/slawomir-pryczek/HSServer/handler_socket2"
 )
@@ -30,7 +30,7 @@ func (this *Handle_solana_info) HandleAction(action string, data *handler_socket
 	}
 
 	if action == "getSolanaInfo" {
-		pub, priv, pub_max, priv_max := solana_proxy.GetMinMaxBlocks()
+		pub, priv, pub_max, priv_max := evm_proxy.GetMinMaxBlocks()
 
 		ret := map[string]interface{}{}
 		ret["first_available_block"] = map[string]string{
@@ -41,7 +41,7 @@ func (this *Handle_solana_info) HandleAction(action string, data *handler_socket
 			"public":  fmt.Sprintf("%d", pub_max),
 			"private": fmt.Sprintf("%d", priv_max)}
 
-		sch := solana_proxy.MakeScheduler()
+		sch := evm_proxy.MakeScheduler()
 		if data.GetParamI("public", 0) == 1 {
 			sch.ForcePublic(true)
 		}
@@ -94,7 +94,7 @@ func (this *Handle_solana_info) HandleAction(action string, data *handler_socket
 
 	if action == "getFirstAvailableBlock" {
 
-		pub, priv, _, _ := solana_proxy.GetMinMaxBlocks()
+		pub, priv, _, _ := evm_proxy.GetMinMaxBlocks()
 
 		ret := map[string]string{}
 		ret["public"] = fmt.Sprintf("%d", pub)
