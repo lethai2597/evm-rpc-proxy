@@ -86,3 +86,84 @@ There is automatic throttling/routing implemented. If node is throttled the requ
 
 
 Please see [Advanced usage](doc/ADVANCED.md) for information about more complex usage scenarios.
+
+## Sử dụng Ethereum RPC Proxy
+
+Server hiện hỗ trợ gọi Ethereum RPC thông qua endpoint `/action/ethereumRaw`. 
+
+### Các phương thức Ethereum phổ biến
+
+Proxy hỗ trợ các phương thức Ethereum JSON-RPC chuẩn, bao gồm:
+
+1. `eth_blockNumber` - Lấy số block mới nhất
+2. `eth_getBalance` - Lấy số dư ETH của một địa chỉ
+3. `eth_call` - Thực hiện lệnh gọi đến smart contract (read-only)
+4. `eth_getTransactionByHash` - Lấy thông tin giao dịch từ hash
+5. `eth_getLogs` - Lấy logs từ smart contract
+
+### Cách gọi RPC
+
+Proxy hỗ trợ hai cách gọi RPC:
+
+#### 1. Cách gọi chuẩn JSON-RPC 2.0 (Khuyến nghị)
+
+Sử dụng phương thức POST với body JSON theo định dạng JSON-RPC 2.0:
+
+```bash
+curl --location 'http://127.0.0.1:7778/action/ethereumRaw' \
+--header 'Content-Type: application/json' \
+--data '{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_blockNumber",
+  "params": []
+}'
+```
+
+#### 2. Cách gọi qua URL (Hỗ trợ cho tương thích ngược)
+
+```
+/action/ethereumRaw?method=eth_blockNumber
+```
+
+### Ví dụ gọi RPC chuẩn
+
+#### Lấy số block mới nhất
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_blockNumber",
+  "params": []
+}
+```
+
+#### Lấy số dư ETH
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_getBalance",
+  "params": ["0xYourEthereumAddress", "latest"]
+}
+```
+
+#### Gọi đến một hàm trên smart contract
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "eth_call",
+  "params": [
+    {
+      "to": "0xContractAddress",
+      "data": "0xfunctionSelector"
+    },
+    "latest"
+  ]
+}
+```
+
+### Cấu hình
+
+Có thể thêm nhiều node RPC bằng cách chỉnh sửa hàm `_read_node_config()` trong `gosol/main/main.go`.

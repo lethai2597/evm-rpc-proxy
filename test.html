@@ -1,317 +1,400 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solana RPC Proxy Test</title>
+    <title>Kiểm Tra Ethereum RPC Proxy</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        .container {
             max-width: 1000px;
             margin: 0 auto;
+            background-color: white;
             padding: 20px;
-            line-height: 1.6;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1, h2, h3 {
-            color: #512da8;
+        h1 {
+            color: #3498db;
+            text-align: center;
+            margin-bottom: 30px;
         }
-        pre {
-            background-color: #f5f5f5;
-            padding: 10px;
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
             border-radius: 5px;
-            overflow-x: auto;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        input, select, button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input, select {
+            flex: 1;
+            min-width: 150px;
         }
         button {
-            background-color: #512da8;
+            background-color: #3498db;
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
             cursor: pointer;
-            margin: 5px 0;
+            border: none;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #311b92;
+            background-color: #2980b9;
         }
-        .result {
-            background-color: #e8eaf6;
-            padding: 10px;
+        .response {
+            background-color: #f5f5f5;
+            padding: 15px;
             border-radius: 5px;
-            margin-top: 10px;
+            font-family: monospace;
             white-space: pre-wrap;
+            overflow-x: auto;
+            min-height: 100px;
             max-height: 300px;
             overflow-y: auto;
         }
-        .example {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 20px;
+        .status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        .examples {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .example-card {
+            border: 1px solid #e0e0e0;
             border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .example-card:hover {
+            background-color: #f0f8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #3498db;
+        }
+        .example-body {
+            font-family: monospace;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .tab-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 4px 4px 0 0;
+            background-color: #f8f9fa;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <h1>Solana RPC Proxy Test</h1>
-    <p>Trang này chứa các ví dụ để test Solana RPC Proxy bằng action raw.</p>
+    <div class="container">
+        <h1>Kiểm Tra Ethereum RPC Proxy</h1>
+        
+        <div class="section">
+            <h2>Thông Tin Cấu Hình</h2>
+            <div class="control-panel">
+                <input type="text" id="proxyUrl" placeholder="URL Proxy (ví dụ: http://127.0.0.1:7778)" value="http://127.0.0.1:7778">
+                <button onclick="checkServerStatus()">Kiểm Tra Trạng Thái</button>
+            </div>
+            <div id="statusResponse" class="response"></div>
+        </div>
 
-    <div class="example">
-        <h2>1. Kiểm tra trạng thái máy chủ</h2>
-        <p>Gửi yêu cầu để xem trạng thái của proxy:</p>
-        <button onclick="testServerStatus()">Kiểm tra trạng thái</button>
-        <div id="serverStatusResult" class="result"></div>
-    </div>
+        <div class="section">
+            <h2>Gửi Yêu Cầu Ethereum JSON-RPC</h2>
+            
+            <div class="tab-container">
+                <div class="tab active" onclick="switchTab('predefined')">Các ví dụ mẫu</div>
+                <div class="tab" onclick="switchTab('custom')">Tùy chỉnh</div>
+            </div>
+            
+            <div id="predefinedTab">
+                <div class="examples">
+                    <div class="example-card" onclick="loadExample('blockNumber')">
+                        <div class="example-title">Lấy số block mới nhất</div>
+                        <div class="example-body">method: eth_blockNumber</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample('getBalance')">
+                        <div class="example-title">Lấy số dư ETH</div>
+                        <div class="example-body">method: eth_getBalance, params: ["0x...""]</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample('getTransactionCount')">
+                        <div class="example-title">Lấy số giao dịch đã gửi</div>
+                        <div class="example-body">method: eth_getTransactionCount</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample('getCode')">
+                        <div class="example-title">Lấy bytecode của smart contract</div>
+                        <div class="example-body">method: eth_getCode</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample('call')">
+                        <div class="example-title">Gọi hàm trên smart contract</div>
+                        <div class="example-body">method: eth_call</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample('getLogs')">
+                        <div class="example-title">Lấy logs từ smart contract</div>
+                        <div class="example-body">method: eth_getLogs</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="customTab" style="display:none;">
+                <div class="control-panel">
+                    <input type="text" id="customMethod" placeholder="Tên phương thức (ví dụ: eth_blockNumber)">
+                    <input type="text" id="customParams" placeholder="Các tham số JSON (ví dụ: [\"0x...\", \"latest\"])">
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <button onclick="sendRequest()">Gửi Yêu Cầu</button>
+            </div>
+            
+            <h3>Body của Request</h3>
+            <div id="requestBody" class="response"></div>
+            
+            <h3>Kết Quả</h3>
+            <div id="requestResponse" class="response"></div>
+            <div id="requestStatus" class="status"></div>
+        </div>
 
-    <div class="example">
-        <h2>2. Lấy thông tin Solana</h2>
-        <p>Lấy thông tin về trạng thái throttling của các node:</p>
-        <button onclick="getSolanaInfo()">Lấy thông tin Solana</button>
-        <div id="solanaInfoResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>3. Lấy block đầu tiên có sẵn</h2>
-        <p>Lấy thông tin về block đầu tiên có sẵn trên các node:</p>
-        <button onclick="getFirstAvailableBlock()">Lấy block đầu tiên</button>
-        <div id="firstBlockResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>4. Gửi yêu cầu RPC getVersion</h2>
-        <p>Gửi yêu cầu RPC để lấy phiên bản của node Solana:</p>
-        <button onclick="getVersion()">Lấy phiên bản</button>
-        <div id="versionResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>5. Gửi yêu cầu RPC getHealth</h2>
-        <p>Kiểm tra sức khỏe của node Solana:</p>
-        <button onclick="getHealth()">Kiểm tra sức khỏe</button>
-        <div id="healthResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>6. Gửi yêu cầu RPC getSlot</h2>
-        <p>Lấy slot hiện tại của node Solana:</p>
-        <button onclick="getSlot()">Lấy slot hiện tại</button>
-        <div id="slotResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>7. Gửi yêu cầu RPC getBlockHeight</h2>
-        <p>Lấy chiều cao block hiện tại của node Solana:</p>
-        <button onclick="getBlockHeight()">Lấy chiều cao block</button>
-        <div id="blockHeightResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>8. Gửi yêu cầu RPC getRecentBlockhash</h2>
-        <p>Lấy blockhash gần đây nhất:</p>
-        <button onclick="getRecentBlockhash()">Lấy blockhash gần đây</button>
-        <div id="recentBlockhashResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>9. Gửi yêu cầu RPC getBalance</h2>
-        <p>Lấy số dư của một địa chỉ ví Solana:</p>
-        <input type="text" id="walletAddress" placeholder="Nhập địa chỉ ví Solana" value="vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-        <button onclick="getBalance()">Lấy số dư</button>
-        <div id="balanceResult" class="result"></div>
-    </div>
-
-    <div class="example">
-        <h2>10. Gửi yêu cầu RPC getAccountInfo</h2>
-        <p>Lấy thông tin tài khoản của một địa chỉ Solana:</p>
-        <input type="text" id="accountAddress" placeholder="Nhập địa chỉ tài khoản Solana" value="vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-        <button onclick="getAccountInfo()">Lấy thông tin tài khoản</button>
-        <div id="accountInfoResult" class="result"></div>
+        <div class="section">
+            <h2>Thử Nghiệm Trạng Thái Node</h2>
+            <div class="control-panel">
+                <button onclick="getNodeInfo()">Lấy Thông Tin Node</button>
+            </div>
+            <div id="nodeInfoResponse" class="response"></div>
+        </div>
     </div>
 
     <script>
-        const proxyUrl = 'http://127.0.0.1:7778';
-
-        async function fetchWithTimeout(url, options, timeout = 10000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            
-            try {
-                const response = await fetch(url, {
-                    ...options,
-                    signal: controller.signal
-                });
-                clearTimeout(id);
-                return response;
-            } catch (error) {
-                clearTimeout(id);
-                throw error;
+        let currentTab = 'predefined';
+        let exampleData = {
+            blockNumber: {
+                method: 'eth_blockNumber',
+                params: []
+            },
+            getBalance: {
+                method: 'eth_getBalance',
+                params: ['0x742d35Cc6634C0532925a3b844Bc454e4438f44e', 'latest']
+            },
+            getTransactionCount: {
+                method: 'eth_getTransactionCount',
+                params: ['0x742d35Cc6634C0532925a3b844Bc454e4438f44e', 'latest']
+            },
+            getCode: {
+                method: 'eth_getCode',
+                params: ['0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 'latest'] // WETH contract
+            },
+            call: {
+                method: 'eth_call',
+                params: [
+                    {
+                        to: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH contract
+                        data: '0x06fdde03' // name() function selector
+                    },
+                    'latest'
+                ]
+            },
+            getLogs: {
+                method: 'eth_getLogs',
+                params: [
+                    {
+                        address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH contract
+                        fromBlock: '0xE8E1C0', // Block in hex
+                        toBlock: '0xE8E1C0',
+                        topics: []
+                    }
+                ]
             }
+        };
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+            
+            if (tab === 'predefined') {
+                document.getElementById('predefinedTab').style.display = 'block';
+                document.getElementById('customTab').style.display = 'none';
+            } else {
+                document.getElementById('predefinedTab').style.display = 'none';
+                document.getElementById('customTab').style.display = 'block';
+            }
+            
+            currentTab = tab;
         }
 
-        async function testServerStatus() {
-            const resultElement = document.getElementById('serverStatusResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
+        function loadExample(example) {
+            let data = exampleData[example];
+            document.getElementById('customMethod').value = data.method;
+            document.getElementById('customParams').value = JSON.stringify(data.params);
             
-            try {
-                const response = await fetchWithTimeout(`${proxyUrl}/?action=server-status`, {
-                    method: 'GET'
-                });
-                
-                const text = await response.text();
-                resultElement.textContent = text;
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
+            // Hiển thị body request
+            updateRequestBodyPreview(data.method, data.params);
         }
 
-        async function getSolanaInfo() {
-            const resultElement = document.getElementById('solanaInfoResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            try {
-                const response = await fetchWithTimeout(`${proxyUrl}/?action=getSolanaInfo`, {
-                    method: 'GET'
-                });
-                
-                const data = await response.json();
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function getFirstAvailableBlock() {
-            const resultElement = document.getElementById('firstBlockResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            try {
-                const response = await fetchWithTimeout(`${proxyUrl}/?action=getFirstAvailableBlock`, {
-                    method: 'GET'
-                });
-                
-                const data = await response.json();
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function sendRpcRequest(method, params = []) {
-            const rpcRequest = {
-                jsonrpc: "2.0",
+        function updateRequestBodyPreview(method, params) {
+            const body = {
+                jsonrpc: '2.0',
                 id: 1,
                 method: method,
                 params: params
             };
+            
+            document.getElementById('requestBody').innerText = JSON.stringify(body, null, 2);
+        }
 
+        // Kiểm tra trạng thái máy chủ
+        async function checkServerStatus() {
+            const proxyUrl = document.getElementById('proxyUrl').value;
+            const statusResponse = document.getElementById('statusResponse');
+            
             try {
-                const response = await fetchWithTimeout(`${proxyUrl}/?action=raw`, {
+                statusResponse.innerText = 'Đang kiểm tra...';
+                const response = await fetch(`${proxyUrl}/action/server-status`);
+                const text = await response.text();
+                statusResponse.innerText = text;
+            } catch (error) {
+                statusResponse.innerText = `Lỗi: ${error.message}`;
+            }
+        }
+
+        // Gửi yêu cầu JSON-RPC
+        async function sendRequest() {
+            const proxyUrl = document.getElementById('proxyUrl').value;
+            const requestResponse = document.getElementById('requestResponse');
+            const requestStatus = document.getElementById('requestStatus');
+            
+            let method, params;
+            
+            // Lấy method và params dựa trên tab đang chọn
+            method = document.getElementById('customMethod').value;
+            try {
+                params = JSON.parse(document.getElementById('customParams').value || '[]');
+            } catch (e) {
+                requestStatus.innerText = 'Lỗi: Tham số không phải JSON hợp lệ!';
+                requestStatus.className = 'status error';
+                return;
+            }
+            
+            // Cập nhật xem trước body request
+            updateRequestBodyPreview(method, params);
+            
+            try {
+                requestResponse.innerText = 'Đang gửi yêu cầu...';
+                requestStatus.innerText = '';
+                requestStatus.className = 'status';
+                
+                // Tạo URL cho yêu cầu
+                let url = `${proxyUrl}?action=ethereumRaw`;
+                
+                // Chuẩn bị body theo định dạng JSON-RPC 2.0
+                const requestBody = {
+                    jsonrpc: '2.0',
+                    id: 1,
+                    method: method,
+                    params: params
+                };
+                
+                // Sử dụng fetch với phương thức POST và body JSON
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(rpcRequest)
+                    body: JSON.stringify(requestBody)
                 });
                 
-                return await response.json();
+                const data = await response.text();
+                
+                try {
+                    // Cố gắng định dạng JSON nếu phản hồi là JSON
+                    const jsonData = JSON.parse(data);
+                    requestResponse.innerText = JSON.stringify(jsonData, null, 2);
+                } catch {
+                    // Nếu không phải JSON, hiển thị dưới dạng văn bản
+                    requestResponse.innerText = data;
+                }
+                
+                requestStatus.innerText = 'Yêu cầu thành công!';
+                requestStatus.className = 'status success';
             } catch (error) {
-                throw error;
+                requestResponse.innerText = `Lỗi: ${error.message}`;
+                requestStatus.innerText = 'Yêu cầu thất bại!';
+                requestStatus.className = 'status error';
             }
         }
 
-        async function getVersion() {
-            const resultElement = document.getElementById('versionResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
+        // Lấy thông tin về các node
+        async function getNodeInfo() {
+            const proxyUrl = document.getElementById('proxyUrl').value;
+            const nodeInfoResponse = document.getElementById('nodeInfoResponse');
             
             try {
-                const data = await sendRpcRequest('getVersion');
-                resultElement.textContent = JSON.stringify(data, null, 2);
+                nodeInfoResponse.innerText = 'Đang lấy thông tin...';
+                const response = await fetch(`${proxyUrl}/action/solana_admin`);
+                const data = await response.text();
+                
+                try {
+                    // Cố gắng định dạng JSON nếu phản hồi là JSON
+                    const jsonData = JSON.parse(data);
+                    nodeInfoResponse.innerText = JSON.stringify(jsonData, null, 2);
+                } catch {
+                    // Nếu không phải JSON, hiển thị dưới dạng văn bản
+                    nodeInfoResponse.innerText = data;
+                }
             } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
+                nodeInfoResponse.innerText = `Lỗi: ${error.message}`;
             }
         }
 
-        async function getHealth() {
-            const resultElement = document.getElementById('healthResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            try {
-                const data = await sendRpcRequest('getHealth');
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function getSlot() {
-            const resultElement = document.getElementById('slotResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            try {
-                const data = await sendRpcRequest('getSlot');
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function getBlockHeight() {
-            const resultElement = document.getElementById('blockHeightResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            try {
-                const data = await sendRpcRequest('getBlockHeight');
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function getRecentBlockhash() {
-            const resultElement = document.getElementById('recentBlockhashResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            try {
-                const data = await sendRpcRequest('getRecentBlockhash');
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function getBalance() {
-            const resultElement = document.getElementById('balanceResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            const walletAddress = document.getElementById('walletAddress').value;
-            if (!walletAddress) {
-                resultElement.textContent = 'Vui lòng nhập địa chỉ ví Solana';
-                return;
-            }
-            
-            try {
-                const data = await sendRpcRequest('getBalance', [walletAddress]);
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
-
-        async function getAccountInfo() {
-            const resultElement = document.getElementById('accountInfoResult');
-            resultElement.textContent = 'Đang gửi yêu cầu...';
-            
-            const accountAddress = document.getElementById('accountAddress').value;
-            if (!accountAddress) {
-                resultElement.textContent = 'Vui lòng nhập địa chỉ tài khoản Solana';
-                return;
-            }
-            
-            try {
-                const data = await sendRpcRequest('getAccountInfo', [accountAddress, {encoding: "jsonParsed"}]);
-                resultElement.textContent = JSON.stringify(data, null, 2);
-            } catch (error) {
-                resultElement.textContent = `Lỗi: ${error.message}`;
-            }
-        }
+        // Khởi tạo trang
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hiển thị body request mặc định
+            updateRequestBodyPreview(exampleData.blockNumber.method, exampleData.blockNumber.params);
+        });
     </script>
 </body>
 </html> 
