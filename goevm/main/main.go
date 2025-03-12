@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"goevm/evm/handle_ethereum_raw"
+	"goevm/evm/handle_evm_01"
 	"goevm/evm/handle_evm_admin"
 	"goevm/handle_kvstore"
 	handle_passthrough "goevm/passthrough"
@@ -20,30 +21,6 @@ import (
 	"runtime"
 	"strings"
 )
-
-// func _read_node_config() {
-
-// 	fmt.Println("\nReading fixed RPC node configuration...")
-
-// 	// RPC 1: Public RPC
-// 	// rpc1 := map[string]interface{}{
-// 	// 	"url":    "https://eth.llamarpc.com",
-// 	// 	"public": true,
-// 	// }
-// 	// handle_evm_admin.NodeRegisterFromConfig(rpc1)
-// 	// fmt.Println("Registered public RPC: https://eth.llamarpc.com")
-
-// 	// RPC 2: Private RPC
-// 	rpc2 := map[string]interface{}{
-// 		"url":    "https://node-eth.pinksale.com", // Ethereum Mainnet RPC
-// 		"public": false,
-// 	}
-// 	handle_evm_admin.NodeRegisterFromConfig(rpc2)
-// 	fmt.Println("Registered private RPC: https://node-eth.pinksale.com")
-
-// 	fmt.Println("Ethereum RPC node configuration completed.")
-// 	fmt.Println("")
-// }
 
 func _read_node_config() {
 
@@ -72,6 +49,7 @@ func main() {
 	handlers = append(handlers, &handle_echo.HandleEcho{})
 	handlers = append(handlers, &handle_profiler.HandleProfiler{})
 	handlers = append(handlers, &handle_ethereum_raw.Handle_ethereum_raw{})
+	handlers = append(handlers, &handle_evm_01.Handle_evm_01{})
 	// handlers = append(handlers, &handle_solana_01.Handle_solana_01{})
 	// handlers = append(handlers, &handle_solana_info.Handle_solana_info{})
 	handlers = append(handlers, &handle_passthrough.Handle_passthrough{})
