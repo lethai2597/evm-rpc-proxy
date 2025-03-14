@@ -44,7 +44,7 @@ func _cfg_load_config() (*cfg, error) {
 
 	// Load config
 	{
-		conf_path := "conf.json"
+		conf_path := "eth.json"
 		if len(os.Args) >= 2 {
 			conf_path = os.Args[1]
 		}
