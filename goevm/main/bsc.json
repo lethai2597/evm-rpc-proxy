@@ -1,0 +1,31 @@
+{
+  "BIND_TO": "127.0.0.1:8546,h127.0.0.1:8545",
+  "BIND_TO_192.168.10.1": "192.168.10.1:8546,h192.168.10.1:8545",
+
+  "FORCE_START": true,
+  "DEBUG": false,
+  "VERBOSE": false,
+  "chainId": 56,
+  "EVM_NODES": [
+    {
+      "url": "http://bsc-mainnet.public.blastapi.io",
+      "public": true,
+      "throttle": "r,15000,10",
+      "score_modifier": 1,
+      "probe_time": 10
+    },
+    {
+      "url": "http://bsc.publicnode.com",
+      "public": true,
+      "throttle": "r,15000,10",
+      "score_modifier": 1,
+      "probe_time": 10
+    }
+  ],
+  "CUSTOM_HEALTH_CHECKER": {
+    "run_every": 60,
+    "max_block_lag": 10,
+    "max_data_age_ms": 60000
+  },
+  "RUN_SERVICES": "*"
+} 
