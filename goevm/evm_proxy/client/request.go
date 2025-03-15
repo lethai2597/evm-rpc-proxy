@@ -45,68 +45,6 @@ func (this *EVMClient) _intcall(method string) (int, ResponseType) {
 	return 0, R_ERROR
 }
 
-func (this *EVMClient) GetFirstAvailableBlock() (int, ResponseType) {
-	// For EVM, we use eth_getBlockByNumber with "earliest" parameter
-	ret, r_type := this.RequestBasic(`{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["earliest", false],"id":1}`)
-	if ret == nil {
-		return 0, r_type
-	}
-
-	r := make(map[string]interface{})
-	dec := json.NewDecoder(bytes.NewReader(ret))
-	dec.UseNumber()
-	dec.Decode(&r)
-
-	if result, ok := r["result"].(map[string]interface{}); ok {
-		if number, ok := result["number"].(string); ok {
-			// Convert hex string to int
-			if strings.HasPrefix(number, "0x") {
-				number = number[2:]
-			}
-			blockNum, err := strconv.ParseInt(number, 16, 64)
-			if err == nil {
-				_ts := time.Now().UnixMilli()
-				this.mu.Lock()
-				this.available_block_first = int(blockNum)
-				this.available_block_first_ts = _ts
-				this.mu.Unlock()
-				return int(blockNum), R_OK
-			}
-		}
-	}
-	return 0, R_ERROR
-}
-
-func (this *EVMClient) GetLastAvailableBlock() (int, ResponseType) {
-	// For EVM, we use eth_blockNumber
-	ret, r_type := this.RequestBasic(`{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}`)
-	if ret == nil {
-		return 0, r_type
-	}
-
-	r := make(map[string]interface{})
-	dec := json.NewDecoder(bytes.NewReader(ret))
-	dec.UseNumber()
-	dec.Decode(&r)
-
-	if result, ok := r["result"].(string); ok {
-		// Convert hex string to int
-		if strings.HasPrefix(result, "0x") {
-			result = result[2:]
-		}
-		blockNum, err := strconv.ParseInt(result, 16, 64)
-		if err == nil {
-			_ts := time.Now().UnixMilli()
-			this.mu.Lock()
-			this.available_block_last = int(blockNum)
-			this.available_block_last_ts = _ts
-			this.mu.Unlock()
-			return int(blockNum), R_OK
-		}
-	}
-	return 0, R_ERROR
-}
-
 func (this *EVMClient) GetVersion() (int, int, string, ResponseType) {
 	// For EVM, we use eth_chainId instead of web3_clientVersion
 	// since web3_clientVersion is not supported by some nodes

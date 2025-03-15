@@ -82,71 +82,20 @@ func init() {
 }
 
 func _run_custom_check() {
-
-	max_age_ms := cc.max_data_age_ms
-	max_block_lag := cc.max_block_lag
+	infos := []*client.EVMClientinfo{}
+	status := []string{}
 
 	mu.RLock()
-	infos := make([]*client.EVMClientinfo, 0, len(clients))
 	for _, client := range clients {
-		infos = append(infos, client.GetInfo())
+		info := client.GetInfo()
+		infos = append(infos, info)
+		status = append(status, client.GetStatus())
 	}
 	mu.RUnlock()
 
-	status := make(map[int]string, 0)
-	max_block := 0
-	wg := sync.WaitGroup{}
-	info_mutex := sync.Mutex{}
-	for num, info := range infos {
-		_age_ms := time.Now().UnixMilli() - info.Available_block_last_ts
-		if _age_ms < max_age_ms {
-			continue
-		}
-
-		// Check if we still can run this client
-		_client := (*client.EVMClient)(nil)
-		mu.RLock()
-		if num < len(clients) {
-			wg.Add(1)
-			_client = clients[num]
-
-			_comm := "Never updated"
-			if _age_ms < 24*3600*1000 {
-				_comm = fmt.Sprintf("%.2fs", float64(_age_ms)/1000.0)
-			}
-			status[num] = fmt.Sprintf("(Trying refresh - %s)", _comm)
-		}
-		mu.RUnlock()
-		if _client == nil {
-			continue
-		}
-
-		// Get max blocks for all clients which need it
-		num := num
-		go func() {
-			_client.GetLastAvailableBlock()
-			_info := _client.GetInfo()
-			info_mutex.Lock()
-			infos[num] = _info
-			info_mutex.Unlock()
-			wg.Done()
-		}()
-	}
-	wg.Wait()
-
-	//Get maximum block
-	for _, info := range infos {
-		if info.Available_block_last > max_block {
-			max_block = info.Available_block_last
-		}
-	}
-
-	mu.RLock()
-	defer mu.RUnlock()
-
 	log := ""
 	for num, info := range infos {
-		is_ok := max_block-info.Available_block_last <= max_block_lag
+		is_ok := true
 		_is_ok := "OK     "
 		if !is_ok {
 			_is_ok = "LAGGING"
@@ -154,27 +103,12 @@ func _run_custom_check() {
 
 		for _, client := range clients {
 			if strings.Compare(client.GetEndpoint(), info.Endpoint) == 0 {
-				if is_ok {
-					client.SetPaused(!is_ok, "")
-					continue
-				}
-
-				if info.Available_block_last_ts == 0 {
-					client.SetPaused(!is_ok, "Paused by Custom Health Checker.\nCan't get last block")
-					continue
-				}
-				client.SetPaused(!is_ok, fmt.Sprintf("Paused by Custom Health Checker.\nNode is lagging behind %d blocks (%d max)",
-					max_block-info.Available_block_last, max_block_lag))
+				client.SetPaused(!is_ok, "")
 			}
 		}
 
-		_age_ms := float64((time.Now().UnixMilli() - info.Available_block_last_ts)) / 1000
-		_diff := max_block - info.Available_block_last
-
-		log += fmt.Sprintf("Node #%d %s Score: %d, Highest Block: %d/%d Max (%d diff) (%.2fs Age) %s\n",
-			num, _is_ok, info.Score,
-			info.Available_block_last, max_block, _diff,
-			_age_ms, status[num])
+		log += fmt.Sprintf("Node #%d %s Score: %d %s\n",
+			num, _is_ok, info.Score, status[num])
 	}
 
 	cc.mu.Lock()

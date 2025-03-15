@@ -307,8 +307,6 @@ export async function addNodesToProxy(nodes, chainId) {
           throttle: "r,15000,10",
           score_modifier: 1,
           probe_time: 10,
-          available_block_first: firstBlock,
-          available_block_first_ts: now,
           available_block_last: lastBlock,
           available_block_last_ts: now,
           is_disabled: false,

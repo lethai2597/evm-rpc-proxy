@@ -75,9 +75,6 @@ func (this *scheduler) GetAll(is_public bool, include_deactivated bool) []*clien
 		if is_public != info.Is_public_node {
 			continue
 		}
-		if this.min_block_no > -1 && this.min_block_no <= info.Available_block_first {
-			continue
-		}
 		ret = append(ret, v)
 	}
 	return ret

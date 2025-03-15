@@ -25,10 +25,6 @@ func (this *scheduler) _pick_next() *client.EVMClient {
 			continue
 		}
 
-		if this.min_block_no > -1 && this.min_block_no <= info.Available_block_first {
-			continue
-		}
-
 		_r := info.Score
 		if min == -1 || _r < min {
 			min = _r

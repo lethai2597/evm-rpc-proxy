@@ -51,35 +51,3 @@ func ClientManage(add *client.EVMClient, removeClientID uint64) bool {
 	clients = tmp
 	return acted
 }
-
-func GetMinMaxBlocks() (int, int, int, int) {
-
-	mu.RLock()
-	defer mu.RUnlock()
-
-	// a public; b private
-	a, b, c, d := -1, -1, -1, -1
-	for _, v := range clients {
-		info := v.GetInfo()
-		if info.Is_disabled {
-			continue
-		}
-
-		if info.Is_public_node {
-			if a == -1 || info.Available_block_first > a {
-				a = info.Available_block_first
-			}
-			if c == -1 || info.Available_block_last < c {
-				c = info.Available_block_last
-			}
-		} else {
-			if b == -1 || info.Available_block_first > b {
-				b = info.Available_block_first
-			}
-			if d == -1 || info.Available_block_last < d {
-				d = info.Available_block_last
-			}
-		}
-	}
-	return a, b, c, d
-}
