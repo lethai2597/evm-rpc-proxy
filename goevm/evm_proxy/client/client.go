@@ -28,15 +28,11 @@ func (this *EVMClient) SetPaused(paused bool, comment string) {
 }
 
 type EVMClient struct {
-	id                       uint64
-	client                   *http.Client
-	endpoint                 string
-	header                   http.Header
-	is_public_node           bool
-	available_block_first    int
-	available_block_first_ts int64
-	available_block_last     int
-	available_block_last_ts  int64
+	id             uint64
+	client         *http.Client
+	endpoint       string
+	header         http.Header
+	is_public_node bool
 
 	is_disabled       bool
 	is_paused         bool
@@ -65,16 +61,12 @@ type EVMClient struct {
 }
 
 type EVMClientinfo struct {
-	ID                       uint64
-	Endpoint                 string
-	Is_public_node           bool
-	Available_block_first    int
-	Available_block_first_ts int64
-	Available_block_last     int
-	Available_block_last_ts  int64
-	Is_disabled              bool
-	Is_throttled             bool
-	Is_paused                bool
+	ID             uint64
+	Endpoint       string
+	Is_public_node bool
+	Is_disabled    bool
+	Is_throttled   bool
+	Is_paused      bool
 
 	Attr  EVMClientAttr
 	Score int
@@ -89,17 +81,12 @@ func (this *EVMClient) GetEndpoint() string {
 }
 
 func (this *EVMClient) GetInfo() *EVMClientinfo {
-
 	ret := EVMClientinfo{}
 
 	this.mu.Lock()
 	ret.ID = this.id
 	ret.Endpoint = this.endpoint
 	ret.Is_public_node = this.is_public_node
-	ret.Available_block_first = this.available_block_first
-	ret.Available_block_first_ts = this.available_block_first_ts
-	ret.Available_block_last = this.available_block_last
-	ret.Available_block_last_ts = this.available_block_last_ts
 	ret.Is_disabled = this.is_disabled
 	ret.Is_paused = this.is_paused
 
