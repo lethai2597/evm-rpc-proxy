@@ -28,6 +28,13 @@ export function removeDuplicateNodes(nodes) {
 // File management
 export function ensureAdminNodesFile(filePath) {
   try {
+    // Đảm bảo thư mục tồn tại
+    const dirPath = filePath.substring(0, filePath.lastIndexOf('/'));
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+      console.log(`Created directory: ${dirPath}`);
+    }
+
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, JSON.stringify({ nodes: [] }, null, 2));
       console.log(`Created empty admin nodes file: ${filePath}`);
