@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"goevm/evm/handle_ethereum_raw"
-	"goevm/evm/handle_evm_01"
 	"goevm/evm/handle_evm_admin"
 	"goevm/handle_kvstore"
 	handle_passthrough "goevm/passthrough"
@@ -14,9 +13,6 @@ import (
 	"github.com/slawomir-pryczek/HSServer/handler_socket2/handle_echo"
 	"github.com/slawomir-pryczek/HSServer/handler_socket2/handle_profiler"
 
-	// "goevm/solana/handle_solana_01"
-	// "goevm/solana/handle_solana_info"
-	// "goevm/solana/handle_solana_admin"
 	"os"
 	"runtime"
 	"strings"
@@ -49,9 +45,6 @@ func main() {
 	handlers = append(handlers, &handle_echo.HandleEcho{})
 	handlers = append(handlers, &handle_profiler.HandleProfiler{})
 	handlers = append(handlers, &handle_ethereum_raw.Handle_ethereum_raw{})
-	handlers = append(handlers, &handle_evm_01.Handle_evm_01{})
-	// handlers = append(handlers, &handle_solana_01.Handle_solana_01{})
-	// handlers = append(handlers, &handle_solana_info.Handle_solana_info{})
 	handlers = append(handlers, &handle_passthrough.Handle_passthrough{})
 	handlers = append(handlers, &handle_evm_admin.Handle_evm_admin{})
 	handlers = append(handlers, &handle_kvstore.Handle_kvstore{})
