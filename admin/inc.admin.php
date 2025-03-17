@@ -37,14 +37,3 @@ class admin {
 		return $data;
 	}
 }
-
-/*
-echo "<pre>";
-print_r(admin::nodeList());
-echo "<hr>";
-print_r(admin::nodeAdd('{"url":"https://rpc.ankr.com/solana", "public":true, "throttle":"r,30,90;f,5,150;d,200000,5;r,3600,1000", "score_modifier":-19999}', 1));
-echo "<hr>";
-print_r(admin::nodeList());
-echo "<hr>";
-print_r(admin::nodeRemove(3));
-*/

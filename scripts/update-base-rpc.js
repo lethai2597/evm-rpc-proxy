@@ -9,13 +9,13 @@ const chainConfig = {
   adminNodesFile: "data/admin-nodes-base.json",
 };
 
-// Đảm bảo thư mục data tồn tại
+// Ensure data directory exists
 const dataDir = path.join(process.cwd(), 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const INTERVAL = 2 * 60 * 1000; // 2 phút
+const INTERVAL = 10 * 60 * 1000;
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -37,7 +37,7 @@ async function main() {
 
       await processChain(chainConfig);
       
-      console.log(`Sleeping for 2 minutes...`);
+      console.log(`Sleeping for 10 minutes...`);
       await sleep(INTERVAL);
     } catch (error) {
       console.error("Error in main process:", error);

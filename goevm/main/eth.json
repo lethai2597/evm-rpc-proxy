@@ -10,7 +10,7 @@
       "url": "https://node-eth.pinksale.com",
       "public": true,
       "score_modifier": -500000,
-      "throttle": "r,50000,10",
+      "throttle": "requests;50000;10;0",
       "probe_time": 60
     }
   ],

@@ -1,24 +1,24 @@
 ## Installation
-It's not required to install, you can run directly from console and the proxy will work right after compiling, using standard Solana public nodes.
+It's not required to install, you can run directly from console and the proxy will work right after compiling, using standard Evm public nodes.
 
 ## Installing as a service
-- Create a new user, it can be called solproxy
-- Copy the content of goevm/main into /home/solproxy (it needs to contain compiled sources) or just download a package from this website and put everything under /home/solproxy
-- Create a directory /home/solproxy/log owned by solproxy user
-- Run sudo vi /etc/systemd/system/solproxy.service and place the following content into solproxy.service file
+- Create a new user, it can be called evmproxy
+- Copy the content of goevm/main into /home/evmproxy (it needs to contain compiled sources) or just download a package from this website and put everything under /home/evmproxy
+- Create a directory /home/evmproxy/log owned by evmproxy user
+- Run sudo vi /etc/systemd/system/evmproxy.service and place the following content into evmproxy.service file
 
 <pre>[Unit]
 After=network-online.target
 Wants=network-online.target
-Description=Solana Proxy Service
+Description=Evm Proxy Service
 
 [Service]
-User=solproxy
+User=evmproxy
 LimitNOFILE=524288
 LimitMEMLOCK=1073741824
 LimitNICE=-10
 Nice=-10
-ExecStart=/bin/sh -c 'cd /home/solproxy; export GODEBUG=gctrace=1; started=`date --rfc-3339=seconds`; echo Starting Solana Proxy $started; ./main 1>"log/log-$started.txt" 2>"log/error-$started.log.txt";'
+ExecStart=/bin/sh -c 'cd /home/evmproxy; export GODEBUG=gctrace=1; started=`date --rfc-3339=seconds`; echo Starting Evm Proxy $started; ./main 1>"log/log-$started.txt" 2>"log/error-$started.log.txt";'
 Type=simple
 PrivateNetwork=false
 PrivateTmp=false

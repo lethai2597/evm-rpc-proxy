@@ -1,5 +1,5 @@
 # Healtch check plugin
-Healtch check is there so solproxy can automatically pause lagging nodes, using data which solproxy collects as heartbeat process.
+Healtch check is there so evmproxy can automatically pause lagging nodes, using data which evmproxy collects as heartbeat process.
 
 <code>
  ... "CUSTOM_HEALTH_CHECKER":{"run_every": 20, "max_block_lag": 1000, "max_data_age_ms": 30000} ...
@@ -15,4 +15,4 @@ Paused node will be displaying in gray on the dashboard and no user requests wil
 
 As you can see on the picture, latest-block-number data was too old for node #3 (>30s), so it was re-fetched. It's good to run these checks infrequently and set proper margins, to conserve requests.
 
-You can configure solana public nodes as sources of latest-block-number data by using priority, so user requests won't be sent to them.
+You can configure evm public nodes as sources of latest-block-number data by using priority, so user requests won't be sent to them.

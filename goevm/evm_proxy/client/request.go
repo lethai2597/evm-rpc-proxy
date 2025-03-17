@@ -4,12 +4,12 @@ package client
 
 import (
 	"bytes"
-	"fmt"
-	"time"
-
 	"encoding/json"
+	"fmt"
+	"log"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // ResponseType represents the type of response from the EVM node
@@ -40,7 +40,7 @@ func (this *EVMClient) _intcall(method string) (int, ResponseType) {
 		}
 		return int(_ret), r_type
 	default:
-		fmt.Println("Error in response for " + method + ": " + string(ret))
+		log.Printf("Error in response for %s: %s", method, string(ret))
 	}
 	return 0, R_ERROR
 }
