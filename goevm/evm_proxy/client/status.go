@@ -19,7 +19,6 @@ func init() {
 }
 
 func (this *EVMClient) GetStatus() string {
-
 	status_throttle := throttle.ThrottleGoup(this.throttle).GetThrottleScore()
 	out, status_description := node_status.Create(this.is_paused, status_throttle.Throttled, this.is_disabled)
 
@@ -64,12 +63,14 @@ func (this *EVMClient) GetStatus() string {
 	// Add throttling badges
 	throttle.ThrottleGoup(this.throttle).GetStatusBadges(out, node_status.Purple)
 
-	// Add throttling badges
-	r := this._statsGetAggr(60)
+	// Get current stats
+	this.mu.Lock()
+	r := this.stat_total
+	this.mu.Unlock()
 
 	// throttling badges for stats
 	if r.stat_done > 0 {
-		out.AddBadge(fmt.Sprintf("Last 60s: %d reqs, %d err, Avg. %.3fms", r.stat_done, r.stat_error_resp+r.stat_error_resp_read, float64(r.stat_ns_total)/float64(r.stat_done)/1000000), node_status.Blue, "")
+		out.AddBadge(fmt.Sprintf("Total: %d reqs, %d err, Avg. %.3fms", r.stat_done, r.stat_error_resp+r.stat_error_resp_read, float64(r.stat_ns_total)/float64(r.stat_done)/1000000), node_status.Blue, "")
 	}
 
 	// throttling badges for status
@@ -89,7 +90,7 @@ func (this *EVMClient) GetStatus() string {
 
 	// throttling badges for detailed errors
 	if r.stat_error_req > 0 || r.stat_error_resp > 0 || r.stat_error_resp_read > 0 || r.stat_error_json_decode > 0 || r.stat_error_json_marshal > 0 {
-		d := "Detailed Errors in last 60s\n"
+		d := "Detailed Errors\n"
 		if r.stat_error_req > 0 {
 			d += "\nRequest errors: " + strconv.Itoa(r.stat_error_req)
 		}

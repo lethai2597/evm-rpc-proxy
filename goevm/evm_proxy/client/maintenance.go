@@ -13,20 +13,6 @@ func (this *EVMClient) _maintenance() {
 
 		throttle.ThrottleGoup(this.throttle).OnMaintenance(int(now))
 
-		_p := int(now % 60)
-		this.stat_last_60_pos = _p
-		this.stat_last_60[_p].stat_done = 0
-		this.stat_last_60[_p].stat_error_json_decode = 0
-		this.stat_last_60[_p].stat_error_json_marshal = 0
-		this.stat_last_60[_p].stat_error_req = 0
-		this.stat_last_60[_p].stat_error_resp = 0
-		this.stat_last_60[_p].stat_error_resp_read = 0
-		this.stat_last_60[_p].stat_ns_total = 0
-
-		this.stat_last_60[_p].stat_request_by_fn = make(map[string]int)
-		this.stat_last_60[_p].stat_bytes_received = 0
-		this.stat_last_60[_p].stat_bytes_sent = 0
-
 		_d, _req_ok, _req_err, _log := this._statsIsDead()
 		this.is_disabled = _d
 		this._probe_log = _log
@@ -60,7 +46,7 @@ func (this *EVMClient) _maintenance() {
 	go func() {
 		for {
 			now := time.Now().Unix()
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(1 * time.Second) // Increased sleep time since EVM doesn't need frequent updates
 			_t := time.Now().Unix()
 			if now >= _t {
 				continue
