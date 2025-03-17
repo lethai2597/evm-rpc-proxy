@@ -102,3 +102,33 @@ func (this *EVMClient) GetVersion() (int, int, string, ResponseType) {
 	}
 	return 0, 0, "", R_ERROR
 }
+
+func (this *EVMClient) GetLastAvailableBlock() (int, ResponseType) {
+	// For EVM, we use eth_blockNumber
+	ret, r_type := this.RequestBasic(`{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}`)
+	if ret == nil {
+		return 0, r_type
+	}
+
+	r := make(map[string]interface{})
+	dec := json.NewDecoder(bytes.NewReader(ret))
+	dec.UseNumber()
+	dec.Decode(&r)
+
+	if result, ok := r["result"].(string); ok {
+		// Convert hex string to int
+		if strings.HasPrefix(result, "0x") {
+			result = result[2:]
+		}
+		blockNum, err := strconv.ParseInt(result, 16, 64)
+		if err == nil {
+			_ts := time.Now().UnixMilli()
+			this.mu.Lock()
+			this.available_block_last = int(blockNum)
+			this.available_block_last_ts = _ts
+			this.mu.Unlock()
+			return int(blockNum), R_OK
+		}
+	}
+	return 0, R_ERROR
+}
