@@ -28,15 +28,21 @@ func (this *EVMClient) SetPaused(paused bool, comment string) {
 }
 
 type EVMClient struct {
-	id             uint64
-	client         *http.Client
-	endpoint       string
-	header         http.Header
-	is_public_node bool
+	id                      uint64
+	client                  *http.Client
+	endpoint                string
+	header                  http.Header
+	is_public_node          bool
+	available_block_last    int
+	available_block_last_ts int64
 
 	is_disabled       bool
 	is_paused         bool
 	is_paused_comment string
+	is_throttled      bool
+	pause_comment     string
+	throttle_comment  string
+	disabled_comment  string
 
 	stat_running int
 	stat_total   stat
@@ -52,19 +58,22 @@ type EVMClient struct {
 	attr     EVMClientAttr
 	throttle []*throttle.Throttle
 
-	_probe_time int
-	_probe_log  string
+	_probe_time       int
+	_probe_time_until int64
+	_probe_log        string
 
 	_last_error LastError
 }
 
 type EVMClientinfo struct {
-	ID             uint64
-	Endpoint       string
-	Is_public_node bool
-	Is_disabled    bool
-	Is_throttled   bool
-	Is_paused      bool
+	ID                      uint64
+	Endpoint                string
+	Is_public_node          bool
+	Available_block_last    int
+	Available_block_last_ts int64
+	Is_disabled             bool
+	Is_throttled            bool
+	Is_paused               bool
 
 	Attr  EVMClientAttr
 	Score int
@@ -87,6 +96,8 @@ func (this *EVMClient) GetInfo() *EVMClientinfo {
 	ret.Is_public_node = this.is_public_node
 	ret.Is_disabled = this.is_disabled
 	ret.Is_paused = this.is_paused
+	ret.Available_block_last = this.available_block_last
+	ret.Available_block_last_ts = this.available_block_last_ts
 
 	tmp := throttle.ThrottleGoup(this.throttle).GetThrottleScore()
 	ret.Score = tmp.Score
