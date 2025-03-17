@@ -8,18 +8,11 @@
   "chainId": 8453,
   "EVM_NODES": [
     {
-      "url": "http://base-mainnet.public.blastapi.io",
+      "url": "https://node-base.pinksale.com",
       "public": true,
-      "throttle": "r,15000,10",
-      "score_modifier": 1,
-      "probe_time": 10
-    },
-    {
-      "url": "http://base.llamarpc.com",
-      "public": true,
-      "throttle": "r,15000,10",
-      "score_modifier": 1,
-      "probe_time": 10
+      "score_modifier": -500000,
+      "throttle": "requests;50000;10;0",
+      "probe_time": 60
     }
   ],
   "CUSTOM_HEALTH_CHECKER": {
@@ -28,4 +21,4 @@
     "max_data_age_ms": 60000
   },
   "RUN_SERVICES": "*"
-} 
+}

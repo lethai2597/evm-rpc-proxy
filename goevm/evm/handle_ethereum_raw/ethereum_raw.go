@@ -3,7 +3,6 @@ package handle_ethereum_raw
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"goevm/evm_proxy"
 	"goevm/evm_proxy/client"
 
@@ -39,13 +38,6 @@ func (this *Handle_ethereum_raw) HandleAction(action string, data *handler_socke
 		return `{"error":"can't find appropriate client"}`
 	}
 
-	// Display information about the node being used
-	fmt.Printf("=== EVM RPC Request ===\n")
-	fmt.Printf("Action: %s\n", action)
-	fmt.Printf("Forwarding to RPC: %s\n", cl.GetEndpoint())
-	fmt.Printf("Method: %s\n", data.GetParam("method", ""))
-	fmt.Printf("=====================\n")
-
 	// run the request
 	is_req_ok := func(data []byte) bool {
 		v := make(map[string]interface{})
@@ -76,10 +68,6 @@ func (this *Handle_ethereum_raw) HandleAction(action string, data *handler_socke
 	// Try public client, if private failed
 	cl = sch.GetPublicClient()
 	if cl != nil {
-		fmt.Printf("=== EVM RPC Retry ===\n")
-		fmt.Printf("Method: %s\n", method)
-		fmt.Printf("Forwarding to public RPC: %s\n", cl.GetEndpoint())
-		fmt.Printf("=====================\n")
 		ret, result = cl.RequestBasic(method, params)
 	}
 	if ret != nil && result == client.R_OK && is_req_ok(ret) {
@@ -93,10 +81,6 @@ func (this *Handle_ethereum_raw) HandleAction(action string, data *handler_socke
 		if cl == nil {
 			break
 		}
-		fmt.Printf("=== EVM RPC Retry (throttled) ===\n")
-		fmt.Printf("Method: %s\n", method)
-		fmt.Printf("Forwarding to RPC: %s\n", cl.GetEndpoint())
-		fmt.Printf("=====================\n")
 		ret, result = cl.RequestBasic(method, params)
 	}
 	if ret != nil && result == client.R_OK && is_req_ok(ret) {

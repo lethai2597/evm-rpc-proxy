@@ -46,28 +46,6 @@ func init() {
 			return false
 		}
 
-		// Identify method from JSON body
-		var method string
-		var jsonData interface{}
-		if err := json.Unmarshal(post, &jsonData); err == nil {
-			switch jsonData.(type) {
-			case map[string]interface{}:
-				if m, ok := jsonData.(map[string]interface{})["method"].(string); ok {
-					method = m
-				}
-			case []interface{}:
-				// Batch request - get the first method to display
-				batch := jsonData.([]interface{})
-				if len(batch) > 0 {
-					if req, ok := batch[0].(map[string]interface{}); ok {
-						if m, ok := req["method"].(string); ok {
-							method = m + " (batch)"
-						}
-					}
-				}
-			}
-		}
-
 		sch := evm_proxy.MakeScheduler()
 		clients := sch.GetAllSorted(false, false)
 		if len(clients) == 0 {
@@ -75,14 +53,6 @@ func init() {
 			w.Write(_passthrough_err("Can't find any client"))
 			return true
 		}
-
-		fmt.Printf("=== EVM RPC Direct Passthrough ===\n")
-		fmt.Printf("Method: %s\n", method)
-		fmt.Printf("Available Clients: %d\n", len(clients))
-		if len(clients) > 0 {
-			fmt.Printf("First Client: %s\n", clients[0].GetEndpoint())
-		}
-		fmt.Printf("================================\n")
 
 		// loop over workers, if we have "throttled" returned it'll try other workers
 		errors := 0
