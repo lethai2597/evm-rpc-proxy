@@ -38,10 +38,8 @@ type EVMClient struct {
 	is_paused         bool
 	is_paused_comment string
 
-	stat_running     int
-	stat_total       stat
-	stat_last_60     [60]stat
-	stat_last_60_pos int
+	stat_running int
+	stat_total   stat
 
 	version_major int
 	version_minor int
@@ -117,9 +115,6 @@ func MakeClient(endpoint string, header http.Header, is_public_node bool, probe_
 	ret.is_public_node = is_public_node
 	ret._probe_time = probe_time
 	ret.stat_total.stat_request_by_fn = make(map[string]int)
-	for i := 0; i < len(ret.stat_last_60); i++ {
-		ret.stat_last_60[i].stat_request_by_fn = make(map[string]int)
-	}
 
 	ret.throttle = throttle
 	ret._maintenance()

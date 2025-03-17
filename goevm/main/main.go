@@ -23,7 +23,7 @@ func _read_node_config() {
 	fmt.Println("\nReading node config...")
 	nodes := (config.Config().GetRawData("EVM_NODES", "")).([]interface{})
 	if len(nodes) <= 0 {
-		fmt.Println("ERROR: No nodes defined, please define at least one solana node to connect to")
+		fmt.Println("ERROR: No nodes defined, please define at least one evm node to connect to")
 		os.Exit(10)
 		return
 	}

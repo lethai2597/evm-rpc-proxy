@@ -55,8 +55,6 @@ func (this *EVMClient) RequestForward(body []byte) (ResponseType, []byte) {
 
 	// Update stats
 	this.mu.Lock()
-	_pos := this.stat_last_60_pos
-	this.stat_last_60[_pos].stat_request_by_fn[method]++
 	this.stat_total.stat_request_by_fn[method]++
 	this.stat_running++
 	this.mu.Unlock()
@@ -113,18 +111,14 @@ func (this *EVMClient) RequestBasic(method_param ...string) ([]byte, ResponseTyp
 		post, err = json.Marshal(req)
 		if err != nil {
 			this.mu.Lock()
-			_pos := this.stat_last_60_pos
-			this.stat_last_60[_pos].stat_error_json_marshal++
 			this.stat_total.stat_error_json_marshal++
 			this.mu.Unlock()
 			return nil, R_ERROR
 		}
 	}
 
-	// Check if throttled
+	// Update bytes sent stats
 	this.mu.Lock()
-	_pos := this.stat_last_60_pos
-	this.stat_last_60[_pos].stat_bytes_sent += len(post)
 	this.stat_total.stat_bytes_sent += len(post)
 	this.mu.Unlock()
 
@@ -142,8 +136,6 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 	req, err := http.NewRequest("POST", this.endpoint, bytes.NewBuffer(post))
 	if err != nil {
 		this.mu.Lock()
-		_pos := this.stat_last_60_pos
-		this.stat_last_60[_pos].stat_error_req++
 		this.stat_total.stat_error_req++
 		this.stat_running--
 		this._last_error = *isGenericError(err, post)
@@ -165,8 +157,6 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 	resp, err := this.client.Do(req)
 	if err != nil || resp == nil || resp.StatusCode != 200 {
 		this.mu.Lock()
-		_pos := this.stat_last_60_pos
-		this.stat_last_60[_pos].stat_error_resp++
 		this.stat_total.stat_error_resp++
 		this.stat_running--
 		this._last_error = *isHTTPError(resp, err, post)
@@ -179,8 +169,6 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		this.mu.Lock()
-		_pos := this.stat_last_60_pos
-		this.stat_last_60[_pos].stat_error_resp_read++
 		this.stat_total.stat_error_resp_read++
 		this.stat_running--
 		this._last_error = *isGenericError(err, post)
@@ -190,12 +178,8 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 
 	// Update stats
 	this.mu.Lock()
-	_pos := this.stat_last_60_pos
-	this.stat_last_60[_pos].stat_done++
 	this.stat_total.stat_done++
-	this.stat_last_60[_pos].stat_ns_total += uint64(time.Now().UnixNano() - ts_started)
 	this.stat_total.stat_ns_total += uint64(time.Now().UnixNano() - ts_started)
-	this.stat_last_60[_pos].stat_bytes_received += len(body)
 	this.stat_total.stat_bytes_received += len(body)
 	this.stat_running--
 	this.mu.Unlock()
