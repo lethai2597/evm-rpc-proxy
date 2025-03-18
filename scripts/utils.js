@@ -1,7 +1,18 @@
 import fs from "fs";
 import axios from "axios";
 
-export const proxyUrl = "http://127.0.0.1:8545";
+const chainPorts = {
+  1: 8545,  // Ethereum
+  56: 8547, // BSC
+  8453: 8549 // Base
+};
+
+export const getProxyUrl = (chainId) => {
+  const port = chainPorts[chainId] || 8545; // Default to ETH port if chainId not found
+  return `http://127.0.0.1:${port}`;
+};
+
+export const proxyUrl = getProxyUrl(1); // Default to Ethereum
 export const timeoutWhenCheckRpc = 5000;
 
 // Utility functions
@@ -216,7 +227,7 @@ export async function nodeDiscovery(adminNodeUrls, chainId) {
 // Proxy management
 export async function getNodesFromProxy(chainId) {
   try {
-    const response = await axios.get(proxyUrl, {
+    const response = await axios.get(getProxyUrl(chainId), {
       params: {
         action: "evm_admin",
         chain_id: chainId,
@@ -352,7 +363,7 @@ export async function addNodesToProxy(nodes, chainId) {
           score: 100,
         };
 
-        const response = await axios.get(proxyUrl, {
+        const response = await axios.get(getProxyUrl(chainId), {
           params: {
             action: "evm_admin_add",
             chain_id: chainId,
@@ -389,7 +400,7 @@ export async function removeNodesFromProxy(nodes, chainId) {
   const results = await Promise.allSettled(
     nodes.map(async (node) => {
       try {
-        const response = await axios.get(proxyUrl, {
+        const response = await axios.get(getProxyUrl(chainId), {
           params: {
             action: "evm_admin_remove",
             chain_id: chainId,
