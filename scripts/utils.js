@@ -424,7 +424,6 @@ export async function removeNodesFromProxy(nodes, chainId) {
     (r) => r.status === "fulfilled" && r.value
   ).length;
   const failed = results.length - successful;
-  c;
 }
 
 export function delay(ms) {

@@ -5,7 +5,6 @@ import (
 	node_status "goevm/evm_proxy/client/status"
 	"goevm/evm_proxy/client/throttle"
 	"html"
-	"strconv"
 	"strings"
 	"time"
 
@@ -57,85 +56,89 @@ func (this *EVMClient) GetStatus() string {
 		out.AddBadge(fmt.Sprintf("%d Header(s) defined", len(this.header)), node_status.Gray, h_)
 	}
 
+	out.AddBadge(fmt.Sprintf("%d Requests Running", this.stat_running), node_status.Gray, "Number of requests currently being processed.")
+	if this._probe_time >= 10 {
+		out.AddBadge("Conserve Requests", node_status.Green, "Health checks are limited for\nthis node to conserve requests.\n\nIf you're paying per-request\nit's good to enable this mode.")
+	}
+
 	// Add throttling badges
 	throttle.ThrottleGoup(this.throttle).GetStatusBadges(out, node_status.Purple)
 
-	// Get current stats
-	this.mu.Lock()
-	r := this.stat_total
-	this.mu.Unlock()
-
-	// throttling badges for stats
-	if r.stat_done > 0 {
-		out.AddBadge(fmt.Sprintf("Total: %d reqs, %d err, Avg. %.3fms", r.stat_done, r.stat_error_resp+r.stat_error_resp_read, float64(r.stat_ns_total)/float64(r.stat_done)/1000000), node_status.Blue, "")
+	// show last error if we have any
+	if this._last_error.counter > 0 {
+		last_error_header, last_error_details := this._last_error.Info()
+		_comment := html.EscapeString(last_error_header) + "\n" + html.EscapeString(last_error_details)
+		out.AddBadge(fmt.Sprintf("Has Errors: %d", this._last_error.counter), node_status.Orange, _comment)
 	}
 
-	// throttling badges for status
+	// Next health badge
 	{
-		_err_rate := 0.0
-		if r.stat_done > 0 {
-			_err_rate = 100 * float64(r.stat_error_resp+r.stat_error_resp_read) / float64(r.stat_done)
-		}
-
-		reqerrs := fmt.Sprintf("Error Rate: %.2f%% (%d/%d)", _err_rate, r.stat_error_resp+r.stat_error_resp_read, r.stat_done)
-		if _err_rate >= 5 {
-			out.AddBadge(reqerrs, node_status.Red, fmt.Sprintf("High Error Rate"))
+		_dead, r, e, _comment := this._statsIsDead()
+		_comment = "Node status which will be applied during the next update:\n" + _comment
+		if _dead {
+			out.AddBadge(fmt.Sprintf("Predicted Not Healthy (%dR/%dE)", r, e), node_status.Red, _comment)
 		} else {
-			out.AddBadge(reqerrs, node_status.Blue, "")
+			out.AddBadge(fmt.Sprintf("Predicted Healthy (%dR/%dE)", r, e), node_status.Green, _comment)
 		}
 	}
 
-	// throttling badges for detailed errors
-	if r.stat_error_req > 0 || r.stat_error_resp > 0 || r.stat_error_resp_read > 0 || r.stat_error_json_decode > 0 || r.stat_error_json_marshal > 0 {
-		d := "Detailed Errors\n"
-		if r.stat_error_req > 0 {
-			d += "\nRequest errors: " + strconv.Itoa(r.stat_error_req)
-		}
-		if r.stat_error_resp > 0 {
-			d += "\nResponse errors: " + strconv.Itoa(r.stat_error_resp)
-		}
-		if r.stat_error_resp_read > 0 {
-			d += "\nResponse Read errors: " + strconv.Itoa(r.stat_error_resp_read)
-		}
-		if r.stat_error_json_decode > 0 {
-			d += "\nJSON Decode errors: " + strconv.Itoa(r.stat_error_json_decode)
-		}
-		if r.stat_error_json_marshal > 0 {
-			d += "\nJSON Marshall errors: " + strconv.Itoa(r.stat_error_json_marshal)
-		}
-
-		out.AddBadge(fmt.Sprintf("Err JM: %d, Req: %d, Resp: %d, RResp: %d, Decode: %d",
-			r.stat_error_json_marshal, r.stat_error_req, r.stat_error_resp, r.stat_error_resp_read, r.stat_error_json_decode),
-			node_status.Orange, html.EscapeString(d))
-	}
-
-	if r.stat_bytes_received != 0 || r.stat_bytes_sent != 0 {
-		out.AddBadge(hscommon.FormatBytes(uint64(r.stat_bytes_received))+" / "+hscommon.FormatBytes(uint64(r.stat_bytes_sent)), node_status.Blue,
-			fmt.Sprintf("First number is received data, second is sent.\nTotal bytes received: %d\nTotal bytes sent: %d", r.stat_bytes_received, r.stat_bytes_sent))
-	}
-
-	// throttling badges for function calls
-	if len(r.stat_request_by_fn) > 0 {
-		bd := ""
-		for k, v := range r.stat_request_by_fn {
-			bd += k + ": " + fmt.Sprintf("%d", v) + " calls\n"
-		}
-		out.AddBadge(fmt.Sprintf("Function calls: %d", len(r.stat_request_by_fn)), node_status.Blue, bd)
-	}
-
-	// last error badge
+	// Paused status
 	{
-		var le LastError
+		if this.is_paused {
+			_p := "Node is paused"
+			if len(this.is_paused_comment) > 0 {
+				_p += ", reason:\n" + this.is_paused_comment
+			} else {
+				_p += ", no additional info present"
+			}
+			out.AddBadge("Paused", node_status.Gray, _p)
+		}
+	}
+
+	// Generate content (throttle settings)
+	{
+		content := ""
+		for _, throttle := range this.throttle {
+			content += throttle.GetStatus()
+		}
+		out.AddContent(content)
+	}
+
+	// Requests statistics
+	{
+		_get_row := func(label string, s stat, time_running int) []string {
+			_req := fmt.Sprintf("%d", s.stat_done)
+			_req_s := fmt.Sprintf("%.02f", float64(s.stat_done)/float64(time_running))
+			_req_avg := fmt.Sprintf("%.02f ms", (float64(s.stat_ns_total)/float64(s.stat_done))/1000.0)
+
+			_r := make([]string, 0, 10)
+			_r = append(_r, label, _req, _req_s, _req_avg)
+
+			_r = append(_r, fmt.Sprintf("%d", s.stat_error_json_marshal))
+			_r = append(_r, fmt.Sprintf("%d", s.stat_error_req))
+			_r = append(_r, fmt.Sprintf("%d", s.stat_error_resp))
+			_r = append(_r, fmt.Sprintf("%d", s.stat_error_resp_read))
+			_r = append(_r, fmt.Sprintf("%d", s.stat_error_json_decode))
+
+			_r = append(_r, fmt.Sprintf("%.02fMB", float64(s.stat_bytes_sent)/1000/1000))
+			_r = append(_r, fmt.Sprintf("%.02fMB", float64(s.stat_bytes_received)/1000/1000))
+			return _r
+		}
+
+		// Get current stats
 		this.mu.Lock()
-		le = this._last_error
+		r := this.stat_total
 		this.mu.Unlock()
 
-		if le.counter > 0 {
-			_h, _d := le.Info()
-			_a := time.UnixMicro(le.call_ts).Format("15:04:05")
-			out.AddBadge("Last Error at "+_a, node_status.Red, html.EscapeString(_h+"\n"+_d))
-		}
+		// Statistics
+		table := hscommon.NewTableGen("Time", "Requests", "Req/s", "Avg Time",
+			"Err JM", "Err Req", "Err Resp", "Err RResp", "Err Decode", "Sent", "Received")
+		table.SetClass("tab evm")
+
+		time_running := time.Now().Unix() - start_time
+		table.AddRow(_get_row("Total", r, int(time_running))...)
+		out.AddContent(table.Render())
 	}
 
-	return out.GetHTML()
+	return "\n" + out.GetHTML()
 }
