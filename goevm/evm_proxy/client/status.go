@@ -39,9 +39,6 @@ func (this *EVMClient) GetStatus() string {
 	}
 
 	// Add basic badges
-	if len(this.version) > 0 {
-		out.AddBadge("Version: "+this.version, node_status.Gray, "Version number was updated on: "+time.UnixMilli(this.version_ts).Format("2006-01-02 15:04:05"))
-	}
 	if this.header != nil && len(this.header) > 0 {
 		h_ := ""
 		for k, v := range this.header {

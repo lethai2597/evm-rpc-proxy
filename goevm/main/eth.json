@@ -8,7 +8,7 @@
   "EVM_NODES": [
     {
       "url": "https://node-eth.pinksale.com",
-      "public": true,
+      "public": false,
       "score_modifier": -500000,
       "throttle": "requests;50000;10;0",
       "probe_time": 60

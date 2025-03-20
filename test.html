@@ -118,12 +118,28 @@
         .error {
             border-left: 4px solid #e74c3c;
         }
+        .wallet-connection {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            border: 1px solid #d0e3ff;
+        }
+        .wallet-address {
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>EVM Proxy Tester</h1>
         
+        <!-- Wallet Connection -->
+        <div class="wallet-connection">
+            <button id="connectWallet" onclick="connectWallet()">Connect Wallet</button>
+            <span id="walletAddress" class="wallet-address"></span>
+        </div>
+
         <!-- Chain Selector -->
         <div class="chain-selector">
             <h3>Select Chain:</h3>
@@ -139,7 +155,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Method List -->
         <div class="method-list">
             <!-- Basic Methods -->
@@ -150,7 +166,7 @@
                 </div>
                 <div class="response" id="eth_blockNumber_response"></div>
             </div>
-
+            
             <div class="method-item">
                 <div class="method-header">
                     <span class="method-name">eth_getBalance</span>
@@ -161,7 +177,7 @@
                 </div>
                 <div class="response" id="eth_getBalance_response"></div>
             </div>
-
+            
             <div class="method-item">
                 <div class="method-header">
                     <span class="method-name">eth_call (Token Balance)</span>
@@ -173,7 +189,7 @@
                 </div>
                 <div class="response" id="eth_call_balance_response"></div>
             </div>
-
+            
             <div class="method-item">
                 <div class="method-header">
                     <span class="method-name">Custom RPC Call</span>
@@ -184,6 +200,19 @@
                     <input type="text" id="custom_params" placeholder="Params (e.g. ['0x123', 'latest'])">
                 </div>
                 <div class="response" id="custom_method_response"></div>
+            </div>
+            
+            <div class="method-item">
+                <div class="method-header">
+                    <span class="method-name">Transfer USDT</span>
+                    <button onclick="runMethod('transfer_usdt')">Test</button>
+                </div>
+                <div class="method-input">
+                    <input type="text" id="usdt_contract" placeholder="USDT Contract Address (0x...)">
+                    <input type="text" id="usdt_recipient" placeholder="Recipient Address (0x...)">
+                    <input type="text" id="usdt_amount" placeholder="Amount (in USDT)">
+                </div>
+                <div class="response" id="transfer_usdt_response"></div>
             </div>
         </div>
     </div>
@@ -196,6 +225,54 @@
         };
 
         let currentChain = 1; // Default to Ethereum
+        let connectedAccount = null;
+
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                alert('MetaMask is not installed. Please install MetaMask to use this feature.');
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                connectedAccount = accounts[0];
+                document.getElementById('walletAddress').textContent = `Connected: ${connectedAccount.slice(0,6)}...${connectedAccount.slice(-4)}`;
+                document.getElementById('connectWallet').textContent = 'Connected';
+            } catch (error) {
+                console.error(error);
+                alert('Failed to connect wallet: ' + error.message);
+            }
+        }
+
+        async function sendTransaction(to, data) {
+            if (!connectedAccount) {
+                alert('Please connect your wallet first');
+                return null;
+            }
+
+            try {
+                const transactionParameters = {
+                    from: connectedAccount,
+                    to: to,
+                    data: data,
+                };
+
+                const txHash = await window.ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [transactionParameters],
+                });
+
+                return {
+                    success: true,
+                    data: { result: txHash }
+                };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
 
         function getProxyUrl(chainId) {
             const port = chainPorts[chainId] || 8545;
@@ -285,6 +362,40 @@
                         to: tokenAddress,
                         data: data
                     }, 'latest']);
+                    break;
+
+                case 'transfer_usdt':
+                    const usdtContract = document.getElementById('usdt_contract').value;
+                    const recipient = document.getElementById('usdt_recipient').value;
+                    const amount = document.getElementById('usdt_amount').value;
+
+                    if (!usdtContract || !recipient || !amount) {
+                        responseElement.innerHTML = 'Error: All fields are required';
+                        responseElement.classList.add('error');
+                        return;
+                    }
+
+                    // Convert amount to wei (USDT typically has 6 decimals)
+                    const amountInWei = (parseFloat(amount) * 1e6).toString(16);
+                    // Pad to 64 characters
+                    const paddedAmount = amountInWei.padStart(64, '0');
+                    // Pad recipient address to 64 characters (remove '0x' prefix first)
+                    const paddedRecipient = recipient.slice(2).padStart(64, '0');
+                    
+                    // Encode transfer(address,uint256) function call
+                    // Function selector for transfer(address,uint256): 0xa9059cbb
+                    const transferData = `0xa9059cbb${paddedRecipient}${paddedAmount}`;
+                    
+                    // First simulate the transaction with eth_call
+                    result = await sendRequest('eth_call', [{
+                        to: usdtContract,
+                        data: transferData
+                    }, 'latest']);
+
+                    if (result.success) {
+                        // If simulation successful, send actual transaction
+                        result = await sendTransaction(usdtContract, transferData);
+                    }
                     break;
             }
 
