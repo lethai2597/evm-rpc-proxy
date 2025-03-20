@@ -21,31 +21,34 @@ func (this *EVMClient) _maintenance() {
 		// run a request to check if the node is alive
 		// this._probe_time related
 		if _req_ok+_req_err < 1 && this._probe_time > 0 {
-			go func() {
-				this.GetVersion()
-			}()
+			lastUpdateAge := now - (this.available_block_last_ts / 1000) // Convert ms to s
+			if lastUpdateAge > 5 {                                       // Only check if last update was more than 5s ago
+				go func() {
+					this.GetLastAvailableBlock()
+				}()
+			}
 		}
 		this.mu.Unlock()
 	}
 
-	_update_version := func() {
-		_, _, _, _ok := this.GetVersion()
-		if _ok != R_OK {
-			fmt.Println("Health: Can't get version for: ", this.endpoint)
-			return
-		}
-	}
-
 	_update_last_block := func() {
-		_, _ok := this.GetLastAvailableBlock()
-		if _ok != R_OK {
-			fmt.Println("Health: Can't get last block for: ", this.endpoint)
-			return
+		now := time.Now().Unix()
+		this.mu.Lock()
+		lastUpdateAge := now - (this.available_block_last_ts / 1000) // Convert ms to s
+		this.mu.Unlock()
+
+		// Only update if last update was more than 3s ago
+		// This prevents too frequent updates while still catching new blocks
+		if lastUpdateAge > 3 {
+			_, _ok := this.GetLastAvailableBlock()
+			if _ok != R_OK {
+				fmt.Println("Health: Can't get last block for: ", this.endpoint)
+				return
+			}
 		}
 	}
 
 	// run first update, get all data required for the node to work!
-	_update_version()
 	_update_last_block()
 
 	go func() {
@@ -57,15 +60,12 @@ func (this *EVMClient) _maintenance() {
 				continue
 			}
 
-			// update version and last block
+			// update last block
 			now = _t
 
 			// if we have probing time set - use that
 			if pt := int64(this._probe_time); pt > 0 {
 				pt_by2 := pt * 2
-				if now%pt_by2 == 0 {
-					_update_version()
-				}
 				if now%pt_by2 == pt {
 					_update_last_block()
 				}

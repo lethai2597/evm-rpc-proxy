@@ -47,11 +47,6 @@ type EVMClient struct {
 	stat_running int
 	stat_total   stat
 
-	version_major int
-	version_minor int
-	version       string
-	version_ts    int64
-
 	mu        sync.Mutex
 	serial_no uint64
 
