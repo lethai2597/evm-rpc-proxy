@@ -11,6 +11,12 @@ func (this *EVMClient) _maintenance() {
 	_maint_stat := func(now int64) {
 		this.mu.Lock()
 
+		// Update stat_last_60
+		this.stat_last_60_pos = (this.stat_last_60_pos + 1) % 60
+		this.stat_last_60[this.stat_last_60_pos] = stat{
+			stat_request_by_fn: make(map[string]int),
+		}
+
 		throttle.ThrottleGoup(this.throttle).OnMaintenance(int(now))
 
 		_d, _req_ok, _req_err, _log := this._statsIsDead()

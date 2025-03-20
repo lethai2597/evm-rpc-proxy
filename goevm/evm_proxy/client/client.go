@@ -44,8 +44,10 @@ type EVMClient struct {
 	throttle_comment  string
 	disabled_comment  string
 
-	stat_running int
-	stat_total   stat
+	stat_running     int
+	stat_total       stat
+	stat_last_60     [60]stat
+	stat_last_60_pos int
 
 	mu        sync.Mutex
 	serial_no uint64
@@ -121,6 +123,12 @@ func MakeClient(endpoint string, header http.Header, is_public_node bool, probe_
 	ret.is_public_node = is_public_node
 	ret._probe_time = probe_time
 	ret.stat_total.stat_request_by_fn = make(map[string]int)
+
+	// Initialize stat_last_60 array
+	for i := 0; i < 60; i++ {
+		ret.stat_last_60[i].stat_request_by_fn = make(map[string]int)
+	}
+	ret.stat_last_60_pos = 0
 
 	ret.throttle = throttle
 	ret._maintenance()
