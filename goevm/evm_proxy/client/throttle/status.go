@@ -71,6 +71,11 @@ func (this *Throttle) GetStatus() string {
 		layout += fmt.Sprintf("%s/%s %s %s %s %s<br>", _type, _time_str, _max_str, _progress(_score), _left_str, fmt.Sprintf("%.1f%%", float64(_score)))
 	}
 
+	// Remove the last <br> tag if exists
+	if strings.HasSuffix(layout, "<br>") {
+		layout = layout[:len(layout)-4]
+	}
+
 	status = strings.Replace(status, "##layout##", layout, 1)
 	return status
 }
