@@ -52,38 +52,27 @@ func (this *EVMClient) RequestForward(body []byte) (ResponseType, []byte) {
 		return R_ERROR, []byte(`{"error":"method not found in json"}`)
 	}
 
-	this.mu.Lock()
-	// Check if client is paused or disabled
-	if this.is_paused || this.is_disabled {
-		this.mu.Unlock()
-		return R_ERROR, []byte(`{"error":"node is paused or disabled"}`)
-	}
-
 	// Check if client is throttled
-	if throttle.ThrottleGoup(this.throttle).GetThrottleScore().Throttled {
-		this.mu.Unlock()
+	if throttle.ThrottleGoup(this.throttle).IsThrottled(method) {
 		return R_THROTTLED, []byte(`{"error":"throttled"}`)
 	}
-	throttle.ThrottleGoup(this.throttle).OnRequest(method)
 
 	// Update stats
-	this.stat_total.stat_done++
-	this.stat_last_60[this.stat_last_60_pos].stat_done++
+	this.mu.Lock()
 	this.stat_total.stat_request_by_fn[method]++
-	this.stat_last_60[this.stat_last_60_pos].stat_request_by_fn[method]++
 	this.stat_running++
 	this.stat_total.stat_bytes_sent += len(body)
 	this.stat_last_60[this.stat_last_60_pos].stat_bytes_sent += len(body)
 	this.mu.Unlock()
 
 	// Make the request
-	now := time.Now().UnixNano()
-	respBody := this._docall(now, body)
-	if respBody == nil {
-		return R_ERROR, []byte(`{"error":"request failed"}`)
+	ret, r_type := this.RequestBasic(string(body))
+	if r_type != R_OK {
+		// No need to decrease stat_running here as it's handled in _docall
+		return r_type, []byte(`{"error":"request failed"}`)
 	}
 
-	return R_OK, respBody
+	return R_OK, ret
 }
 
 func (this *EVMClient) RequestBasic(method_param ...string) ([]byte, ResponseType) {
@@ -95,12 +84,7 @@ func (this *EVMClient) RequestBasic(method_param ...string) ([]byte, ResponseTyp
 		this.mu.Unlock()
 		return nil, R_ERROR
 	}
-
-	// THROTTLE BLOCK! Check if we're not throttled
-	if throttle.ThrottleGoup(this.throttle).GetThrottleScore().Throttled {
-		this.mu.Unlock()
-		return nil, R_THROTTLED
-	}
+	this.mu.Unlock()
 
 	// Prepare the request body
 	var post []byte
@@ -141,7 +125,8 @@ func (this *EVMClient) RequestBasic(method_param ...string) ([]byte, ResponseTyp
 		}
 	}
 
-	// Update stats
+	// Update bytes sent stats
+	this.mu.Lock()
 	this.stat_total.stat_bytes_sent += len(post)
 	this.stat_last_60[this.stat_last_60_pos].stat_bytes_sent += len(post)
 	this.mu.Unlock()
@@ -156,13 +141,23 @@ func (this *EVMClient) RequestBasic(method_param ...string) ([]byte, ResponseTyp
 }
 
 func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
+	decreaseRunning := true
+	defer func() {
+		if decreaseRunning {
+			this.mu.Lock()
+			if this.stat_running > 0 {
+				this.stat_running--
+			}
+			this.mu.Unlock()
+		}
+	}()
+
 	// Create request
 	req, err := http.NewRequest("POST", this.endpoint, bytes.NewBuffer(post))
 	if err != nil {
 		this.mu.Lock()
 		this.stat_total.stat_error_req++
 		this.stat_last_60[this.stat_last_60_pos].stat_error_req++
-		this.stat_running--
 		this._last_error = *isGenericError(err, post)
 		this.mu.Unlock()
 		return nil
@@ -184,7 +179,6 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 		this.mu.Lock()
 		this.stat_total.stat_error_resp++
 		this.stat_last_60[this.stat_last_60_pos].stat_error_resp++
-		this.stat_running--
 		this._last_error = *isHTTPError(resp, err, post)
 		this.mu.Unlock()
 		return nil
@@ -197,7 +191,6 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 		this.mu.Lock()
 		this.stat_total.stat_error_resp_read++
 		this.stat_last_60[this.stat_last_60_pos].stat_error_resp_read++
-		this.stat_running--
 		this._last_error = *isGenericError(err, post)
 		this.mu.Unlock()
 		return nil
@@ -205,13 +198,12 @@ func (this *EVMClient) _docall(ts_started int64, post []byte) []byte {
 
 	// Update stats
 	this.mu.Lock()
-	elapsed := time.Now().UnixNano() - ts_started
-	this.stat_total.stat_ns_total += uint64(elapsed / 1000)
-	this.stat_last_60[this.stat_last_60_pos].stat_ns_total += uint64(elapsed / 1000)
+	this.stat_total.stat_done++
+	this.stat_last_60[this.stat_last_60_pos].stat_done++
+	this.stat_total.stat_ns_total += uint64(time.Now().UnixNano() - ts_started)
+	this.stat_last_60[this.stat_last_60_pos].stat_ns_total += uint64(time.Now().UnixNano() - ts_started)
 	this.stat_total.stat_bytes_received += len(body)
 	this.stat_last_60[this.stat_last_60_pos].stat_bytes_received += len(body)
-	this.stat_running--
-	throttle.ThrottleGoup(this.throttle).OnReceive(len(body))
 	this.mu.Unlock()
 
 	return body
