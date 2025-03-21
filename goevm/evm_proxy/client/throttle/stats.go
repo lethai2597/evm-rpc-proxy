@@ -76,7 +76,9 @@ func (this *Throttle) _getThrottleScore() ThrottleScore {
 		_used, _score := this._getThrottleStatus(&limiter)
 		_max := limiter.maximum
 
-		ret.Score += _score + this.score_modifier
+		if _score > ret.Score {
+			ret.Score = _score
+		}
 		if _score > ret.CapacityUsed {
 			ret.CapacityUsed = _score
 		}

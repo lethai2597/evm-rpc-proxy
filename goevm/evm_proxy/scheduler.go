@@ -86,12 +86,17 @@ func (this *scheduler) GetAllSorted(is_public bool, include_disabled bool) []*cl
 	type r_sort struct {
 		c     *client.EVMClient
 		score int
+		block int
 	}
 	s := make([]r_sort, 0, len(ret))
 	for _, v := range ret {
-		s = append(s, r_sort{v, v.GetInfo().Score})
+		info := v.GetInfo()
+		s = append(s, r_sort{v, info.Score, info.Available_block_last})
 	}
 	sort.Slice(s, func(a, b int) bool {
+		if s[a].score == s[b].score {
+			return s[a].block > s[b].block
+		}
 		return s[a].score < s[b].score
 	})
 	for k, v := range s {

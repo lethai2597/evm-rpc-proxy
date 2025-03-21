@@ -56,8 +56,8 @@ func init() {
 
 		// loop over workers, if we have "throttled" returned it'll try other workers
 		errors := 0
-		for i, cl := range clients {
-			fmt.Printf("Trying client #%d: %s\n", i+1, cl.GetEndpoint())
+		for _, cl := range clients {
+			fmt.Printf("Trying client : %s\n", cl.GetEndpoint())
 			resp_type, resp_data := cl.RequestForward(post)
 			if resp_type == client.R_OK {
 				fmt.Printf("Success with client: %s\n", cl.GetEndpoint())

@@ -10,13 +10,13 @@
       "url": "https://node-eth.pinksale.com",
       "public": false,
       "score_modifier": -500000,
-      "throttle": "requests;50000;10;0",
+      "throttle": "requests;10000;10;0",
       "probe_time": 60
     }
   ],
   "CUSTOM_HEALTH_CHECKER": {
     "run_every": 60,
-    "max_block_lag": 10,
+    "max_block_lag": 5,
     "max_data_age_ms": 60000
   },
   "RUN_SERVICES": "*",

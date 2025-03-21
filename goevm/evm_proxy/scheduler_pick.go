@@ -5,7 +5,6 @@ import (
 )
 
 func (this *scheduler) _pick_next() *client.EVMClient {
-
 	min, min_pos := -1, -1
 	for num, v := range this.clients {
 		if v == nil {
