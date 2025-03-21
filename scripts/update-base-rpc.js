@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 const chainConfig = {
-  chainId: 8453,
+  chainId: 1,
   configFile: "../goevm/main/base.json",
   validNodesFile: "data/valid-nodes-base.json",
   adminNodesFile: "data/admin-nodes-base.json",

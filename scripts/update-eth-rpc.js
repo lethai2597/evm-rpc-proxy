@@ -1,5 +1,6 @@
 import { ensureAdminNodesFile, processChain } from './utils.js';
 import fs from 'fs';
+import path from 'path';
 
 const chainConfig = {
   chainId: 1,
@@ -7,6 +8,12 @@ const chainConfig = {
   validNodesFile: "data/valid-nodes-eth.json",
   adminNodesFile: "data/admin-nodes-eth.json",
 };
+
+// Ensure data directory exists
+const dataDir = path.join(process.cwd(), 'data');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
 
 const INTERVAL = 10 * 60 * 1000;
 
