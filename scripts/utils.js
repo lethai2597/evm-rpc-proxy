@@ -175,6 +175,7 @@ export async function checkNodeStatus(node, chainId) {
 
 export async function nodeDiscovery(adminNodeUrls, chainId) {
   console.log("Starting node discovery...");
+  const MAX_NODES = 60;
 
   // Collect peers from admin nodes
   const peerPromises = adminNodeUrls.map((nodeUrl) =>
@@ -211,16 +212,24 @@ export async function nodeDiscovery(adminNodeUrls, chainId) {
   const validNodes = [];
 
   for (const chunk of chunkedNodes) {
+    if (validNodes.length >= MAX_NODES) {
+      console.log(`Reached maximum limit of ${MAX_NODES} valid nodes`);
+      break;
+    }
+
     const results = await Promise.all(
       chunk.map((node) => checkNodeStatus(node, chainId))
     );
     chunk.forEach((node, index) => {
-      if (results[index]) validNodes.push(node);
+      if (results[index] && validNodes.length < MAX_NODES) {
+        validNodes.push(node);
+      }
     });
     // Add small delay between chunks
     await delay(1000);
   }
 
+  console.log(`Found ${validNodes.length} valid nodes (max ${MAX_NODES})`);
   return validNodes;
 }
 
@@ -351,7 +360,7 @@ export async function addNodesToProxy(nodes, chainId) {
         const nodeInfo = {
           url: node,
           public: false,
-          throttle: "requests;15000;10;0",
+          throttle: "requests;10000;10;0",
           score_modifier: 1,
           probe_time: 10,
           available_block_last: lastBlock,

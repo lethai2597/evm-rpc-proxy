@@ -36,16 +36,18 @@ func (this ThrottleGoup) OnMaintenance(now int) {
 
 func (this ThrottleGoup) GetThrottleScore() ThrottleScore {
 	ret := ThrottleScore{}
-	ret.Score = 0
+	ret.Score = math.MinInt64
 	ret.Throttled = false
 	ret.CapacityUsed = 0
 
 	for _, throttle := range this {
 		tmp := throttle.GetThrottleScore()
-		ret.Score += tmp.Score
-		ret.CapacityUsed = int(math.Max(float64(ret.CapacityUsed), float64(tmp.CapacityUsed)))
-		if tmp.Throttled {
-			ret.Throttled = true
+		if tmp.Score > ret.Score {
+			ret.Score = tmp.Score
+		}
+		ret.Throttled = ret.Throttled || tmp.Throttled
+		if tmp.CapacityUsed > ret.CapacityUsed {
+			ret.CapacityUsed = tmp.CapacityUsed
 		}
 	}
 

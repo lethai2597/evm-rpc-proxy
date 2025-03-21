@@ -53,9 +53,13 @@ func (this *EVMClient) RequestForward(body []byte) (ResponseType, []byte) {
 	}
 
 	// Check if client is throttled
-	if throttle.ThrottleGoup(this.throttle).IsThrottled(method) {
+	this.mu.Lock()
+	if throttle.ThrottleGoup(this.throttle).GetThrottleScore().Throttled {
+		this.mu.Unlock()
 		return R_THROTTLED, []byte(`{"error":"throttled"}`)
 	}
+	throttle.ThrottleGoup(this.throttle).OnRequest(method)
+	this.mu.Unlock()
 
 	// Update stats
 	this.mu.Lock()

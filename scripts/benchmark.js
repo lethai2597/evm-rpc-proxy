@@ -4,8 +4,8 @@ import axios from 'axios';
 // Configuration settings
 const CONFIG = {
     url: 'http://127.0.0.1:8545/?action=ethereumRaw', // HAProxy endpoint URL
-    concurrency: 100,           // Number of concurrent requests
-    totalRequests: 1000,        // Total number of requests to perform
+    concurrency: 30,           // Number of concurrent requests
+    totalRequests: 300,        // Total number of requests to perform
     timeoutMs: 10000,          // Timeout for each request in milliseconds
     fromBlock: 'latest',          // Start block for getLogs query
     toBlock: 'latest'          // End block for getLogs query

@@ -113,13 +113,17 @@ func (this *Throttle) OnMaintenance(now int) {
 		if _max > 0 {
 			_score = (_used * 100) / _max
 		}
-		this.status_score += _score + this.score_modifier
 		if _score > this.status_capacity_used {
 			this.status_capacity_used = _score
+		}
+		if _score > this.status_score {
+			this.status_score = _score
 		}
 
 		if _used >= _max {
 			this.status_throttled = true
 		}
 	}
+
+	this.status_score += this.score_modifier
 }
